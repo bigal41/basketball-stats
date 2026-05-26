@@ -8,7 +8,7 @@ import {
   getTeamLeaders,
   sumStatLines,
 } from '../lib/stats';
-import { PlayerBarChart, TeamTrendChart } from '../ui/Charts';
+import { DeferredPlayerBarChart, DeferredTeamTrendChart } from '../ui/LazyCharts';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatCard } from '../ui/StatCard';
@@ -132,12 +132,12 @@ export const DashboardPage = () => {
         {teamTrendData.length === 0 ? (
           <StatePanel title="No completed games yet" body="Completed games will unlock trend charts." />
         ) : (
-          <TeamTrendChart data={teamTrendData} />
+          <DeferredTeamTrendChart data={teamTrendData} />
         )}
       </SectionCard>
 
       <SectionCard title="Season Scoring Leaders">
-        <PlayerBarChart data={scorers} />
+        <DeferredPlayerBarChart data={scorers} />
       </SectionCard>
     </div>
   );

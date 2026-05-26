@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useSeasonData } from '../hooks/useSeasonData';
 import { calculatePercentage, formatPercentage, getPlayerStatsForGame, sumStatLines } from '../lib/stats';
-import { PlayerBarChart } from '../ui/Charts';
+import { DeferredPlayerBarChart } from '../ui/LazyCharts';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 
@@ -131,7 +131,7 @@ export const GamePage = () => {
 
       {stats.length > 0 ? (
         <SectionCard title="Scoring and Shot Volume">
-          <PlayerBarChart data={chartData} attemptKey="attempts" />
+          <DeferredPlayerBarChart data={chartData} attemptKey="attempts" />
         </SectionCard>
       ) : null}
     </div>

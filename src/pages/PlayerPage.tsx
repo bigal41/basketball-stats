@@ -8,7 +8,7 @@ import {
   getPlayerStatsForPlayer,
   sumStatLines,
 } from '../lib/stats';
-import { PlayerTrendChart } from '../ui/Charts';
+import { DeferredPlayerTrendChart } from '../ui/LazyCharts';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatCard } from '../ui/StatCard';
@@ -97,7 +97,7 @@ export const PlayerPage = () => {
         {chartData.length === 0 ? (
           <StatePanel title="No games played" body="Player trends appear after completed games." />
         ) : (
-          <PlayerTrendChart data={chartData} />
+          <DeferredPlayerTrendChart data={chartData} />
         )}
       </SectionCard>
 

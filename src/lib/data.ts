@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore/lite';
 import { db, hasFirebaseConfig } from './firebase';
 import { sampleData } from './sampleData';
 import type { Game, Player, PlayerGameStat, SeasonData } from '../types';
