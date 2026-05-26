@@ -57,6 +57,27 @@ export const AppShell = () => {
         <main className="pt-1">
           <Outlet />
         </main>
+        <footer className="flex flex-col gap-2 px-1 pb-2 pt-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
+          <span>Ballers United stats dashboard</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://github.com/bigal41/basketball-stats"
+              target="_blank"
+              rel="noreferrer"
+              className="transition hover:text-[var(--accent)]"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://ralexclark.ca/"
+              target="_blank"
+              rel="noreferrer"
+              className="transition hover:text-[var(--accent)]"
+            >
+              ralexclark.ca
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );
