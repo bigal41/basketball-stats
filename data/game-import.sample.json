@@ -1,0 +1,36 @@
+{
+  "game": {
+    "date": "2026-08-04",
+    "opponent": "#9-Some Team",
+    "teamScore": 81,
+    "oppScore": 74,
+    "status": "completed",
+    "youtubeUrl": "https://youtu.be/example"
+  },
+  "playerStats": [
+    {
+      "playerName": "Kyle",
+      "pts": 20,
+      "reb": 8,
+      "ast": 3,
+      "fgm": 7,
+      "fga": 14,
+      "tpm": 2,
+      "tpa": 6,
+      "stl": 1,
+      "blk": 0
+    },
+    {
+      "playerName": "Cameron",
+      "pts": 18,
+      "reb": 5,
+      "ast": 4,
+      "fgm": 6,
+      "fga": 13,
+      "tpm": 2,
+      "tpa": 5,
+      "stl": 0,
+      "blk": 1
+    }
+  ]
+}

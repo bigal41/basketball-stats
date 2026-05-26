@@ -39,7 +39,9 @@ If Firebase env vars are missing, the app falls back to local sample data so the
 
 ## Seed Workflow
 
-1. Copy `data/seed.sample.json` to your own JSON file if needed.
+1. Use one of these input formats:
+   - `data/seed.sample.json` for full bootstrap seeding with explicit UUIDs
+   - `data/game-import.sample.json` for adding one game using `playerName` instead of `playerId`
 2. Add a Firebase service account JSON at `firebase-service-account.json`.
 3. Run:
 
@@ -47,4 +49,15 @@ If Firebase env vars are missing, the app falls back to local sample data so the
    npm run seed -- data/seed.sample.json
    ```
 
-The script overwrites matching UUID document ids for `games`, `players`, and `playerGameStats`.
+For one-game imports, run:
+
+```bash
+npm run seed -- data/game-import.sample.json
+```
+
+Importer behavior:
+- full seed files overwrite matching UUID document ids for `games`, `players`, and `playerGameStats`
+- game import files generate a new `gameId` when one is not provided
+- game import files resolve `playerName` against the existing `players` collection in Firestore
+- unknown player names fail
+- duplicate player name matches fail
