@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color-scheme: light;
+  --bg-base:
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.15), transparent 32%),
+    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --panel-bg: rgba(255, 255, 255, 0.72);
+  --panel-strong: rgba(255, 255, 255, 0.84);
+  --panel-soft: rgba(255, 255, 255, 0.58);
+  --border: rgba(15, 23, 42, 0.12);
+  --accent: #ea580c;
+  --accent-soft: rgba(234, 88, 12, 0.12);
+  --success: #15803d;
+  --info: #0369a1;
+  --youtube-link: #ff0000;
+  --table-row: rgba(255, 255, 255, 0.58);
+  --chart-grid: rgba(15, 23, 42, 0.1);
+  --chart-axis: #475569;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-base:
+    radial-gradient(circle at top left, rgba(224, 122, 95, 0.28), transparent 35%),
+    radial-gradient(circle at top right, rgba(129, 178, 154, 0.25), transparent 30%),
+    linear-gradient(180deg, #14213d 0%, #101726 100%);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --panel-bg: rgba(2, 6, 23, 0.45);
+  --panel-strong: rgba(2, 6, 23, 0.78);
+  --panel-soft: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+  --accent: #fb923c;
+  --accent-soft: rgba(251, 146, 60, 0.14);
+  --success: #86efac;
+  --info: #7dd3fc;
+  --youtube-link: #ffffff;
+  --table-row: rgba(255, 255, 255, 0.05);
+  --chart-grid: rgba(148, 163, 184, 0.15);
+  --chart-axis: #cbd5e1;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: var(--bg-base);
+  transition: background-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}

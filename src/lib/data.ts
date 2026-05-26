@@ -1,0 +1,77 @@
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { db, hasFirebaseConfig } from './firebase';
+import { sampleData } from './sampleData';
+import type { Game, Player, PlayerGameStat, SeasonData } from '../types';
+
+const sortByDate = (games: Game[]) => [...games].sort((a, b) => a.date.localeCompare(b.date));
+
+export const getSeasonData = async (): Promise<SeasonData> => {
+  if (!hasFirebaseConfig || !db) {
+    return sampleData;
+  }
+
+  const [gamesSnapshot, playersSnapshot, statsSnapshot] = await Promise.all([
+    getDocs(query(collection(db, 'games'), orderBy('date', 'asc'))),
+    getDocs(collection(db, 'players')),
+    getDocs(collection(db, 'playerGameStats')),
+  ]);
+
+  const games = gamesSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Game[];
+  const players = playersSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Player[];
+  const playerGameStats = statsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as PlayerGameStat[];
+
+  return {
+    games: sortByDate(games),
+    players,
+    playerGameStats,
+  };
+};
+
+export const getGameById = async (gameId: string): Promise<Game | null> => {
+  const seasonData = await getSeasonData();
+  return seasonData.games.find((game) => game.id === gameId) ?? null;
+};
+
+export const getStatsByGameId = async (gameId: string): Promise<PlayerGameStat[]> => {
+  if (!hasFirebaseConfig || !db) {
+    return sampleData.playerGameStats.filter((stat) => stat.gameId === gameId);
+  }
+
+  const statsSnapshot = await getDocs(
+    query(collection(db, 'playerGameStats'), where('gameId', '==', gameId)),
+  );
+
+  return statsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as PlayerGameStat[];
+};
+
+export const getPlayerById = async (playerId: string): Promise<Player | null> => {
+  const seasonData = await getSeasonData();
+  return seasonData.players.find((player) => player.id === playerId) ?? null;
+};
+
+export const getStatsByPlayerId = async (playerId: string): Promise<PlayerGameStat[]> => {
+  if (!hasFirebaseConfig || !db) {
+    return sampleData.playerGameStats.filter((stat) => stat.playerId === playerId);
+  }
+
+  const statsSnapshot = await getDocs(
+    query(collection(db, 'playerGameStats'), where('playerId', '==', playerId)),
+  );
+
+  return statsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as PlayerGameStat[];
+};
