@@ -90,7 +90,7 @@ export const DashboardPage = () => {
             </a>
           }
         >
-          <div className="space-y-3">
+          <div className="space-y-3 xl:max-h-[31.5rem] xl:overflow-y-auto xl:pr-2">
             {data.games.map((game) => (
               <Link
                 key={game.id}
