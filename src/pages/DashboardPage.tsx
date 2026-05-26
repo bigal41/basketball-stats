@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useSeasonData } from '../hooks/useSeasonData';
+import type { GameType } from '../types';
 import {
+  formatRecord,
   formatAverage,
   getCompletedGames,
+  getCompletedRegularSeasonGames,
   getPlayerStatsForGame,
   getRecord,
   getTeamLeaders,
@@ -25,7 +28,9 @@ export const DashboardPage = () => {
   }
 
   const completedGames = getCompletedGames(data.games);
+  const completedRegularSeasonGames = getCompletedRegularSeasonGames(data.games);
   const record = getRecord(data.games);
+  const regularSeasonRecord = getRecord(completedRegularSeasonGames);
   const completedGameTotals = completedGames.map((game) =>
     sumStatLines(getPlayerStatsForGame(data.playerGameStats, game.id)),
   );
@@ -51,7 +56,10 @@ export const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-6">
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Record" value={`${record.wins}-${record.losses}`} />
+        <StatCard
+          label="Record"
+          value={`${formatRecord(record)} (${formatRecord(regularSeasonRecord)})`}
+        />
         <StatCard
           label="PPG"
           value={formatAverage(seasonTotals.pts / totalGames)}
@@ -90,7 +98,10 @@ export const DashboardPage = () => {
                 className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] px-4 py-4 transition hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]"
               >
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-[var(--text-muted)]">{game.date}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm uppercase tracking-[0.3em] text-[var(--text-muted)]">{game.date}</p>
+                    <GameTypeBadge gameType={game.gameType} />
+                  </div>
                   <p className="mt-1 text-base font-bold text-[var(--text-primary)] sm:text-lg">vs {game.opponent}</p>
                 </div>
                 <div className="text-right">
@@ -140,5 +151,19 @@ export const DashboardPage = () => {
         <DeferredPlayerBarChart data={scorers} />
       </SectionCard>
     </div>
+  );
+};
+
+const GameTypeBadge = ({ gameType }: { gameType?: GameType }) => {
+  if (!gameType || gameType === 'regular') {
+    return null;
+  }
+
+  const label = gameType === 'playoff' ? 'Playoff' : 'Preseason';
+
+  return (
+    <span className="rounded-full border border-[var(--border)] bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+      {label}
+    </span>
   );
 };

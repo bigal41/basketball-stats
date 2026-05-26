@@ -55,6 +55,12 @@ export const formatAverage = (value: number): string => value.toFixed(1);
 export const getCompletedGames = (games: Game[]): Game[] =>
   games.filter((game) => game.status === 'completed');
 
+export const getRegularSeasonGames = (games: Game[]): Game[] =>
+  games.filter((game) => (game.gameType ?? 'regular') === 'regular');
+
+export const getCompletedRegularSeasonGames = (games: Game[]): Game[] =>
+  getCompletedGames(getRegularSeasonGames(games));
+
 export const getRecord = (games: Game[]): { wins: number; losses: number } =>
   getCompletedGames(games).reduce(
     (record, game) => {
@@ -66,6 +72,9 @@ export const getRecord = (games: Game[]): { wins: number; losses: number } =>
     },
     { wins: 0, losses: 0 },
   );
+
+export const formatRecord = ({ wins, losses }: { wins: number; losses: number }): string =>
+  `${wins}-${losses}`;
 
 export const getPlayerStatsForGame = (
   stats: PlayerGameStat[],

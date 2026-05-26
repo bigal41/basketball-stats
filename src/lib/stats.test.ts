@@ -1,6 +1,8 @@
 import {
   averageStatLine,
   calculatePercentage,
+  formatRecord,
+  getCompletedRegularSeasonGames,
   getPlayerStatsForGame,
   getPlayerStatsForPlayer,
   getRecord,
@@ -11,6 +13,11 @@ import { sampleData } from './sampleData';
 describe('stats helpers', () => {
   it('computes the team record from completed games only', () => {
     expect(getRecord(sampleData.games)).toEqual({ wins: 1, losses: 0 });
+  });
+
+  it('keeps preseason out of the regular-season record', () => {
+    expect(getRecord(getCompletedRegularSeasonGames(sampleData.games))).toEqual({ wins: 0, losses: 0 });
+    expect(formatRecord(getRecord(sampleData.games))).toBe('1-0');
   });
 
   it('filters stats by game id', () => {

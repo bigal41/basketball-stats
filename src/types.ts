@@ -1,4 +1,5 @@
 export type GameStatus = 'scheduled' | 'completed';
+export type GameType = 'preseason' | 'regular' | 'playoff';
 
 export interface Game {
   id: string;
@@ -7,6 +8,7 @@ export interface Game {
   teamScore?: number;
   oppScore?: number;
   status: GameStatus;
+  gameType?: GameType;
   youtubeUrl?: string;
 }
 

@@ -15,67 +15,78 @@
       "teamScore": 78,
       "oppScore": 76,
       "status": "completed",
+      "gameType": "preseason",
       "youtubeUrl": "https://youtu.be/5nHD2bgn6gs?si=7HPMtyKM9XXwiTRL"
     },
     {
       "id": "2a4d0f37-a395-44e8-a6f3-ed5ff62f3082",
       "date": "2026-05-26",
       "opponent": "#3-United Splash Bros",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "4cf55db6-145b-4c54-9e9f-8b9177b22c38",
       "date": "2026-06-02",
       "opponent": "#6-LaMelo's Balls",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "71f0c1cb-1268-49fd-8a94-f69f5533076d",
       "date": "2026-06-09",
       "opponent": "#1-Indy 1",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "0f6f1aa2-9373-46d0-bca5-c1461f1953f8",
       "date": "2026-06-16",
       "opponent": "#4-Mount Sumit",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "a3966500-659b-4bdf-94d3-4a10031d6e14",
       "date": "2026-06-23",
       "opponent": "#4-Mount Sumit",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "b81822a4-ec98-4bb7-b602-baf33d1dbeb1",
       "date": "2026-06-30",
       "opponent": "#5-Make a Swish Foundation",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "6b43f6fa-b965-471b-9851-f50a6af80399",
       "date": "2026-07-07",
       "opponent": "#2-Grape Soda",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "c73e6289-a8e7-48f9-b1d4-ae6a45464e6e",
       "date": "2026-07-14",
       "opponent": "#8-Pick & Pizza Roll",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "8de92ca8-b53d-4b20-ad3f-2c13c7be8669",
       "date": "2026-07-21",
       "opponent": "#2-Grape Soda",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     },
     {
       "id": "086ca590-ecbe-4d8b-b1c8-d85616f640d2",
       "date": "2026-07-28",
       "opponent": "#8-Pick & Pizza Roll",
-      "status": "scheduled"
+      "status": "scheduled",
+      "gameType": "regular"
     }
   ],
   "playerGameStats": [
