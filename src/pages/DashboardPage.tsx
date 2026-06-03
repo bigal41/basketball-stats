@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useStatsMode } from '../hooks/useStatsMode';
 import { useSeasonData } from '../hooks/useSeasonData';
 import type { GameType } from '../types';
 import {
@@ -6,8 +7,9 @@ import {
   formatAverage,
   getCompletedGames,
   getCompletedRegularSeasonGames,
-  getPlayerStatsForGame,
   getRecord,
+  getStatCoverage,
+  getStatsForMode,
   getTeamLeaders,
   sumStatLines,
 } from '../lib/stats';
@@ -15,9 +17,11 @@ import { DeferredPlayerBarChart, DeferredTeamTrendChart } from '../ui/LazyCharts
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatCard } from '../ui/StatCard';
+import { StatsModeToggle } from '../ui/StatsModeToggle';
 
 export const DashboardPage = () => {
   const { data, isLoading, error } = useSeasonData();
+  const { statsMode, setStatsMode } = useStatsMode();
 
   if (isLoading) {
     return <StatePanel title="Loading season" body="Pulling games, players, and stats." />;
@@ -31,30 +35,37 @@ export const DashboardPage = () => {
   const completedRegularSeasonGames = getCompletedRegularSeasonGames(data.games);
   const record = getRecord(data.games);
   const regularSeasonRecord = getRecord(completedRegularSeasonGames);
-  const completedGameTotals = completedGames.map((game) =>
-    sumStatLines(getPlayerStatsForGame(data.playerGameStats, game.id)),
-  );
-  const totalGames = completedGames.length || 1;
-  const seasonTotals = completedGameTotals.reduce(
-    (totals, gameTotals) => ({
-      pts: totals.pts + gameTotals.pts,
-      reb: totals.reb + gameTotals.reb,
-      ast: totals.ast + gameTotals.ast,
-    }),
-    { pts: 0, reb: 0, ast: 0 },
-  );
+  const coverage = getStatCoverage(data.games, data.playerGameStats);
+  const activeStats = getStatsForMode(data.games, data.players, data.playerGameStats, statsMode);
+  const activeGameCount = new Set(activeStats.map((stat) => stat.gameId)).size;
+  const totalGames = activeGameCount || 1;
+  const seasonTotals = sumStatLines(activeStats);
   const teamTrendData = completedGames.map((game) => ({
     game: game.opponent,
     points: game.teamScore ?? 0,
     differential: (game.teamScore ?? 0) - (game.oppScore ?? 0),
   }));
-  const scorers = getTeamLeaders(data.playerGameStats, data.players, 'pts').map((entry) => ({
+  const scorers = getTeamLeaders(activeStats, data.players, 'pts').map((entry) => ({
     name: entry.player.name,
     value: entry.value,
   }));
+  const statsModeSummary =
+    statsMode === 'estimated'
+      ? `Estimated stats fill ${coverage.missingStatGames} missing completed game${
+          coverage.missingStatGames === 1 ? '' : 's'
+        } from recorded player shares.`
+      : `Recorded box scores are available for ${coverage.statBackedGames} of ${coverage.completedGames} completed games.`;
 
   return (
     <div className="flex flex-col gap-6">
+      <section className="flex flex-col gap-3 rounded-[1.5rem] border border-[var(--border)] bg-[var(--panel-bg)] p-4 shadow-xl backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--text-muted)]">Stats Mode</p>
+          <p className="mt-1 text-sm text-[var(--text-secondary)]">{statsModeSummary}</p>
+        </div>
+        <StatsModeToggle mode={statsMode} onChange={setStatsMode} />
+      </section>
+
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Record"
@@ -125,7 +136,7 @@ export const DashboardPage = () => {
 
         <SectionCard title="Top Scorers">
           <div className="space-y-3">
-            {getTeamLeaders(data.playerGameStats, data.players, 'pts').map((leader) => (
+            {getTeamLeaders(activeStats, data.players, 'pts').map((leader) => (
               <Link
                 key={leader.player.id}
                 to={`/players/${leader.player.id}`}

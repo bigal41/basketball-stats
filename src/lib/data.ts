@@ -1,7 +1,8 @@
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore/lite';
 import { db, hasFirebaseConfig } from './firebase';
+import { leagueResults } from './league';
 import { sampleData } from './sampleData';
-import type { Game, Player, PlayerGameStat, SeasonData } from '../types';
+import type { Game, LeagueGameResult, Player, PlayerGameStat, SeasonData } from '../types';
 
 const sortByDate = (games: Game[]) => [...games].sort((a, b) => a.date.localeCompare(b.date));
 
@@ -74,4 +75,19 @@ export const getStatsByPlayerId = async (playerId: string): Promise<PlayerGameSt
     id: doc.id,
     ...doc.data(),
   })) as PlayerGameStat[];
+};
+
+export const getLeagueResults = async (): Promise<LeagueGameResult[]> => {
+  if (!hasFirebaseConfig || !db) {
+    return leagueResults;
+  }
+
+  const leagueGamesSnapshot = await getDocs(
+    query(collection(db, 'leagueGames'), orderBy('date', 'asc')),
+  );
+
+  return leagueGamesSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as LeagueGameResult[];
 };

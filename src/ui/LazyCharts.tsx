@@ -98,6 +98,6 @@ const ChartPlaceholder = ({ minHeightClassName }: { minHeightClassName: string }
   <div
     className={`flex w-full items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] ${minHeightClassName}`}
   >
-    <span className="text-sm text-[var(--text-muted)]">Loading chart…</span>
+    <span className="text-sm text-[var(--text-muted)]">Loading chart...</span>
   </div>
 );

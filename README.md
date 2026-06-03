@@ -7,7 +7,7 @@ Single-team basketball dashboard built with React, Vite, TypeScript, Tailwind, F
 1. Install dependencies:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 2. Create `.env.local`:
@@ -24,7 +24,7 @@ Single-team basketball dashboard built with React, Vite, TypeScript, Tailwind, F
 3. Run locally:
 
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
 If Firebase env vars are missing, the app falls back to local sample data so the UI still works.
@@ -34,8 +34,10 @@ If Firebase env vars are missing, the app falls back to local sample data so the
 - `games`
 - `players`
 - `playerGameStats`
+- `leagueGames`
 
-`games` documents support the schedule/result fields used by the app and can optionally include `youtubeUrl` for recorded games.
+`games` documents support the schedule/result fields used by the app and can optionally include `youtubeUrl` or `youtubeUrls` for recorded games.
+`leagueGames` documents support team-level league results used by the standings page.
 
 ## Seed Workflow
 
@@ -46,13 +48,13 @@ If Firebase env vars are missing, the app falls back to local sample data so the
 3. Run:
 
    ```bash
-   npm run seed -- data/seed.sample.json
+   pnpm run seed -- data/seed.sample.json
    ```
 
 For one-game imports, run:
 
 ```bash
-npm run seed -- data/game-import.sample.json
+pnpm run seed -- data/game-import.sample.json
 ```
 
 Importer behavior:

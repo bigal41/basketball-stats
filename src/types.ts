@@ -1,6 +1,20 @@
 export type GameStatus = 'scheduled' | 'completed';
 export type GameType = 'preseason' | 'regular' | 'playoff';
 
+export interface GameVideoLink {
+  label: string;
+  url: string;
+}
+
+export interface LeagueGameResult {
+  id: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number;
+  awayScore: number;
+}
+
 export interface Game {
   id: string;
   date: string;
@@ -10,6 +24,7 @@ export interface Game {
   status: GameStatus;
   gameType?: GameType;
   youtubeUrl?: string;
+  youtubeUrls?: GameVideoLink[];
 }
 
 export interface Player {

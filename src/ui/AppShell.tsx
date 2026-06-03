@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import {
   applyTheme,
   getStoredTheme,
@@ -48,10 +48,16 @@ export const AppShell = () => {
   return (
     <div className="min-h-screen px-3 py-4 sm:px-5 sm:py-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:gap-6">
-        <header className="flex items-center justify-between gap-3 px-1">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.38em] text-[var(--accent)] sm:text-xs">
-            Basketball Stats
-          </p>
+        <header className="flex flex-col gap-3 px-1 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.38em] text-[var(--accent)] sm:text-xs">
+              Basketball Stats
+            </p>
+            <nav className="flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--panel-soft)] p-1 shadow-sm backdrop-blur">
+              <HeaderNavLink to="/">Dashboard</HeaderNavLink>
+              <HeaderNavLink to="/standings">Standings</HeaderNavLink>
+            </nav>
+          </div>
           <ThemeToggle theme={theme} onChange={handleThemeChange} />
         </header>
         <main className="pt-1">
@@ -85,3 +91,19 @@ export const AppShell = () => {
 
 const resolveThemeForUI = (storedTheme: ThemePreference | null): ThemePreference =>
   storedTheme ?? getSystemTheme();
+
+const HeaderNavLink = ({ to, children }: { to: string; children: string }) => (
+  <NavLink
+    to={to}
+    end={to === '/'}
+    className={({ isActive }) =>
+      `rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] transition ${
+        isActive
+          ? 'bg-[var(--accent)] text-white shadow-sm'
+          : 'text-[var(--text-secondary)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]'
+      }`
+    }
+  >
+    {children}
+  </NavLink>
+);

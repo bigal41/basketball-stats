@@ -1,5 +1,19 @@
 import type { Game, Player, PlayerGameStat, StatLine } from '../types';
 
+export type StatsMode = 'real' | 'estimated';
+
+export interface DisplayPlayerGameStat extends PlayerGameStat {
+  isEstimated: boolean;
+}
+
+export interface StatCoverage {
+  completedGames: number;
+  statBackedGames: number;
+  missingStatGames: number;
+}
+
+const statKeys = ['pts', 'reb', 'ast', 'fgm', 'fga', 'tpm', 'tpa', 'stl', 'blk'] as const;
+
 const emptyStatLine = (): StatLine => ({
   pts: 0,
   reb: 0,
@@ -76,15 +90,67 @@ export const getRecord = (games: Game[]): { wins: number; losses: number } =>
 export const formatRecord = ({ wins, losses }: { wins: number; losses: number }): string =>
   `${wins}-${losses}`;
 
-export const getPlayerStatsForGame = (
-  stats: PlayerGameStat[],
+export const getPlayerStatsForGame = <T extends PlayerGameStat>(
+  stats: T[],
   gameId: string,
-): PlayerGameStat[] => stats.filter((stat) => stat.gameId === gameId);
+): T[] => stats.filter((stat) => stat.gameId === gameId);
 
-export const getPlayerStatsForPlayer = (
-  stats: PlayerGameStat[],
+export const getPlayerStatsForPlayer = <T extends PlayerGameStat>(
+  stats: T[],
   playerId: string,
-): PlayerGameStat[] => stats.filter((stat) => stat.playerId === playerId);
+): T[] => stats.filter((stat) => stat.playerId === playerId);
+
+export const getStatCoverage = (games: Game[], stats: PlayerGameStat[]): StatCoverage => {
+  const completedGames = getCompletedGames(games);
+  const completedGameIds = new Set(completedGames.map((game) => game.id));
+  const statBackedGameIds = new Set(
+    stats.filter((stat) => completedGameIds.has(stat.gameId)).map((stat) => stat.gameId),
+  );
+
+  return {
+    completedGames: completedGames.length,
+    statBackedGames: statBackedGameIds.size,
+    missingStatGames: completedGames.length - statBackedGameIds.size,
+  };
+};
+
+export const getStatsForMode = (
+  games: Game[],
+  players: Player[],
+  stats: PlayerGameStat[],
+  mode: StatsMode,
+): DisplayPlayerGameStat[] => {
+  const completedGames = getCompletedGames(games);
+  const completedGameIds = new Set(completedGames.map((game) => game.id));
+  const completedStats = stats
+    .filter((stat) => completedGameIds.has(stat.gameId))
+    .map((stat) => ({ ...stat, isEstimated: false }));
+
+  if (mode === 'real') {
+    return completedStats;
+  }
+
+  const statBackedGameIds = new Set(completedStats.map((stat) => stat.gameId));
+  const statBackedGames = completedGames.filter((game) => statBackedGameIds.has(game.id));
+
+  if (statBackedGames.length === 0) {
+    return completedStats;
+  }
+
+  const historicalTeamTotals = sumStatLines(completedStats);
+  const historicalPlayerTotals = new Map(
+    players.map((player) => [
+      player.id,
+      sumStatLines(getPlayerStatsForPlayer(completedStats, player.id)),
+    ]),
+  );
+  const missingGames = completedGames.filter((game) => !statBackedGameIds.has(game.id));
+  const estimatedStats = missingGames.flatMap((game) =>
+    estimateStatsForGame(game, players, historicalTeamTotals, historicalPlayerTotals, statBackedGames.length),
+  );
+
+  return [...completedStats, ...estimatedStats];
+};
 
 export const sortGamesByDate = (games: Game[]): Game[] =>
   [...games].sort((left, right) => left.date.localeCompare(right.date));
@@ -110,4 +176,117 @@ export const getTeamLeaders = (
     })
     .sort((left, right) => right.value - left.value)
     .slice(0, 5);
+};
+
+const estimateStatsForGame = (
+  game: Game,
+  players: Player[],
+  historicalTeamTotals: StatLine,
+  historicalPlayerTotals: Map<string, StatLine>,
+  statBackedGameCount: number,
+): DisplayPlayerGameStat[] => {
+  const allocations = Object.fromEntries(
+    statKeys.map((statKey) => [
+      statKey,
+      allocateStatByShare(
+        players,
+        historicalPlayerTotals,
+        statKey,
+        getEstimatedTeamTotal(game, historicalTeamTotals, statKey, statBackedGameCount),
+      ),
+    ]),
+  ) as Record<keyof StatLine, Map<string, number>>;
+
+  return players.map((player) => ({
+    id: `estimated_${game.id}_${player.id}`,
+    playerId: player.id,
+    gameId: game.id,
+    pts: allocations.pts.get(player.id) ?? 0,
+    reb: allocations.reb.get(player.id) ?? 0,
+    ast: allocations.ast.get(player.id) ?? 0,
+    fgm: allocations.fgm.get(player.id) ?? 0,
+    fga: allocations.fga.get(player.id) ?? 0,
+    tpm: allocations.tpm.get(player.id) ?? 0,
+    tpa: allocations.tpa.get(player.id) ?? 0,
+    stl: allocations.stl.get(player.id) ?? 0,
+    blk: allocations.blk.get(player.id) ?? 0,
+    isEstimated: true,
+  }));
+};
+
+const getEstimatedTeamTotal = (
+  game: Game,
+  historicalTeamTotals: StatLine,
+  statKey: keyof StatLine,
+  statBackedGameCount: number,
+): number => {
+  if (statKey === 'pts' && typeof game.teamScore === 'number') {
+    return game.teamScore;
+  }
+
+  return Math.round(historicalTeamTotals[statKey] / statBackedGameCount);
+};
+
+const allocateStatByShare = (
+  players: Player[],
+  historicalPlayerTotals: Map<string, StatLine>,
+  statKey: keyof StatLine,
+  targetTotal: number,
+): Map<string, number> => {
+  const allocations = new Map(players.map((player) => [player.id, 0]));
+
+  if (targetTotal <= 0) {
+    return allocations;
+  }
+
+  const historicalTotal = players.reduce(
+    (total, player) => total + (historicalPlayerTotals.get(player.id)?.[statKey] ?? 0),
+    0,
+  );
+
+  if (historicalTotal <= 0) {
+    return allocations;
+  }
+
+  const ranked = players
+    .map((player) => {
+      const historicalValue = historicalPlayerTotals.get(player.id)?.[statKey] ?? 0;
+      const rawValue = (historicalValue / historicalTotal) * targetTotal;
+      const flooredValue = Math.floor(rawValue);
+
+      return {
+        player,
+        flooredValue,
+        historicalValue,
+        remainder: rawValue - flooredValue,
+      };
+    })
+    .sort((left, right) => {
+      if (right.remainder !== left.remainder) {
+        return right.remainder - left.remainder;
+      }
+
+      if (right.historicalValue !== left.historicalValue) {
+        return right.historicalValue - left.historicalValue;
+      }
+
+      return left.player.name.localeCompare(right.player.name);
+    });
+
+  let assignedTotal = 0;
+  for (const entry of ranked) {
+    allocations.set(entry.player.id, entry.flooredValue);
+    assignedTotal += entry.flooredValue;
+  }
+
+  let remainder = targetTotal - assignedTotal;
+  let index = 0;
+  while (remainder > 0 && ranked.length > 0) {
+    const entry = ranked[index % ranked.length];
+    allocations.set(entry.player.id, (allocations.get(entry.player.id) ?? 0) + 1);
+    remainder -= 1;
+    index += 1;
+  }
+
+  return allocations;
 };

@@ -3,12 +3,20 @@ import { randomUUID } from 'node:crypto';
 import process from 'node:process';
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import type { Game, Player, PlayerGameStat } from '../src/types';
+import type { Game, LeagueGameResult, Player, PlayerGameStat } from '../src/types';
 
 interface SeedPayload {
   players: Array<Player & { id: string }>;
   games: Array<Game & { id: string }>;
   playerGameStats: PlayerGameStat[];
+}
+
+interface PlayerSeedPayload {
+  players: Array<Player & { id: string }>;
+}
+
+interface LeagueResultsSeedPayload {
+  leagueGames: Array<LeagueGameResult & { id: string }>;
 }
 
 interface GameImportPayload {
@@ -27,13 +35,22 @@ const loadJson = async <T>(filePath: string): Promise<T> => {
   return JSON.parse(buffer) as T;
 };
 
-const isSeedPayload = (payload: SeedPayload | GameImportPayload): payload is SeedPayload =>
+type SeedInput = SeedPayload | PlayerSeedPayload | LeagueResultsSeedPayload | GameImportPayload;
+
+const isSeedPayload = (payload: SeedInput): payload is SeedPayload =>
   'players' in payload && 'games' in payload && 'playerGameStats' in payload;
+
+const isPlayerSeedPayload = (
+  payload: SeedInput,
+): payload is PlayerSeedPayload => 'players' in payload && !('games' in payload);
+
+const isLeagueResultsSeedPayload = (payload: SeedInput): payload is LeagueResultsSeedPayload =>
+  'leagueGames' in payload;
 
 const main = async () => {
   const [serviceAccount, payload] = await Promise.all([
     loadJson<Record<string, unknown>>(serviceAccountPath),
-    loadJson<SeedPayload | GameImportPayload>(seedFilePath),
+    loadJson<SeedInput>(seedFilePath),
   ]);
 
   initializeApp({
@@ -60,6 +77,26 @@ const main = async () => {
     console.log(
       `Seeded ${payload.players.length} players, ${payload.games.length} games, and ${payload.playerGameStats.length} player game stats.`,
     );
+    return;
+  }
+
+  if (isPlayerSeedPayload(payload)) {
+    await Promise.all(
+      payload.players.map((player) => db.collection('players').doc(player.id).set({ name: player.name })),
+    );
+
+    console.log(`Seeded ${payload.players.length} players.`);
+    return;
+  }
+
+  if (isLeagueResultsSeedPayload(payload)) {
+    await Promise.all(
+      payload.leagueGames.map(({ id, ...leagueGame }) =>
+        db.collection('leagueGames').doc(id).set(leagueGame),
+      ),
+    );
+
+    console.log(`Seeded ${payload.leagueGames.length} league games.`);
     return;
   }
 
