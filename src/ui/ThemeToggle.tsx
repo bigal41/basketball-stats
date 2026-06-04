@@ -7,7 +7,7 @@ interface ThemeToggleProps {
 }
 
 export const ThemeToggle = ({ theme, onChange }: ThemeToggleProps) => (
-  <div className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--panel-soft)] p-1 shadow-sm backdrop-blur">
+  <div className="inline-flex w-fit self-start items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--panel-soft)] p-1 shadow-sm backdrop-blur">
     <ThemeIconButton
       label="Light mode"
       selected={theme === 'light'}
