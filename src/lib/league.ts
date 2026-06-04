@@ -44,6 +44,38 @@ export const leagueResults: LeagueGameResult[] = [
     homeScore: 67,
     awayScore: 97,
   },
+  {
+    id: '2026-06-02-mount-sumit-make-a-swish-foundation',
+    date: '2026-06-02',
+    homeTeam: 'Mount Sumit',
+    awayTeam: 'Make a Swish Foundation',
+    homeScore: 62,
+    awayScore: 84,
+  },
+  {
+    id: '2026-06-02-grape-soda-amish-ballers',
+    date: '2026-06-02',
+    homeTeam: 'Grape Soda',
+    awayTeam: 'Amish Ballers',
+    homeScore: 79,
+    awayScore: 77,
+  },
+  {
+    id: '2026-06-02-ballers-united-lamelos-balls',
+    date: '2026-06-02',
+    homeTeam: 'Ballers United',
+    awayTeam: "LaMelo's Balls",
+    homeScore: 81,
+    awayScore: 71,
+  },
+  {
+    id: '2026-06-02-pick-pizza-roll-united-splash-bros',
+    date: '2026-06-02',
+    homeTeam: 'Pick & Pizza Roll',
+    awayTeam: 'United Splash Bros',
+    homeScore: 72,
+    awayScore: 62,
+  },
 ];
 
 export const buildLeagueStandings = (results: LeagueGameResult[]): LeagueStanding[] => {

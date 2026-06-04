@@ -8,7 +8,7 @@ import {
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 
-const officialThroughDate = 'May 26, 2026';
+const officialThroughDate = 'June 2, 2026';
 
 export const StandingsPage = () => {
   const { data, isLoading, error } = useLeagueResults();
@@ -30,7 +30,7 @@ export const StandingsPage = () => {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--text-muted)]">League</p>
           <h1 className="mt-1 text-2xl font-black text-[var(--text-primary)]">Standings</h1>
           <p className="mt-1 text-sm text-[var(--text-secondary)]">
-            Official results through {officialThroughDate}. June 2 games are excluded until official.
+            Official results through {officialThroughDate}.
           </p>
         </div>
         <Link to="/" className="text-sm font-semibold text-[var(--accent)]">
