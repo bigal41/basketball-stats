@@ -25,11 +25,13 @@ export interface Game {
   gameType?: GameType;
   youtubeUrl?: string;
   youtubeUrls?: GameVideoLink[];
+  absentPlayerNames?: string[];
 }
 
 export interface Player {
   id: string;
   name: string;
+  sub?: boolean;
 }
 
 export interface PlayerGameStat {

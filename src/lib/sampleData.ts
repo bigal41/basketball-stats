@@ -7,7 +7,7 @@ export const sampleData: SeasonData = {
     { id: '0ab2f67d-1cc3-4e72-bec3-bd3aeb6a2c82', name: 'Uday' },
     { id: '2433894e-e5b5-45c0-9621-a8c7e7d44db4', name: 'Collin' },
     { id: '64fec1e1-2e38-4878-adf4-0b6318ca9066', name: 'Vern' },
-    { id: '2cdfa2e4-7791-477a-b1e7-bd17d6260b5a', name: 'Alex' },
+    { id: '2cdfa2e4-7791-477a-b1e7-bd17d6260b5a', name: 'Alex C' },
   ],
   games: [
     {

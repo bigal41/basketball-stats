@@ -146,7 +146,13 @@ export const getStatsForMode = (
   );
   const missingGames = completedGames.filter((game) => !statBackedGameIds.has(game.id));
   const estimatedStats = missingGames.flatMap((game) =>
-    estimateStatsForGame(game, players, historicalTeamTotals, historicalPlayerTotals, statBackedGames.length),
+    estimateStatsForGame(
+      game,
+      getAvailablePlayersForGame(game, players),
+      historicalTeamTotals,
+      historicalPlayerTotals,
+      statBackedGames.length,
+    ),
   );
 
   return [...completedStats, ...estimatedStats];
@@ -157,6 +163,13 @@ export const sortGamesByDate = (games: Game[]): Game[] =>
 
 export const buildPlayerLookup = (players: Player[]): Map<string, Player> =>
   new Map(players.map((player) => [player.id, player]));
+
+export const getAvailablePlayersForGame = (game: Game, players: Player[]): Player[] => {
+  const absentPlayerNames = new Set((game.absentPlayerNames ?? []).map(normalizeName));
+  return players.filter((player) => !absentPlayerNames.has(normalizeName(player.name)));
+};
+
+const normalizeName = (value: string): string => value.trim().toLowerCase();
 
 export const getTeamLeaders = (
   stats: PlayerGameStat[],

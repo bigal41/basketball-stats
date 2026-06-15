@@ -14,6 +14,7 @@ import {
   sumStatLines,
 } from '../lib/stats';
 import { DeferredPlayerBarChart, DeferredTeamTrendChart } from '../ui/LazyCharts';
+import { PlayerBadge } from '../ui/PlayerBadge';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatCard } from '../ui/StatCard';
@@ -142,7 +143,10 @@ export const DashboardPage = () => {
                 to={`/players/${leader.player.id}`}
                 className="flex items-center justify-between rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] px-4 py-3 transition hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]"
               >
-                <span className="font-semibold text-[var(--text-primary)]">{leader.player.name}</span>
+                <span className="font-semibold text-[var(--text-primary)]">
+                  {leader.player.name}
+                  {leader.player.sub ? <PlayerBadge label="Sub" tone="muted" /> : null}
+                </span>
                 <span className="text-sm font-bold text-[var(--accent)]">{leader.value} pts</span>
               </Link>
             ))}

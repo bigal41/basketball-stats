@@ -27,8 +27,9 @@ interface GameImportPayload {
   } & Omit<PlayerGameStat, 'id' | 'playerId' | 'gameId'>>;
 }
 
-const seedFilePath = process.argv[2] ?? 'data/seed.sample.json';
-const serviceAccountPath = process.argv[3] ?? 'firebase-service-account.json';
+const cliArgs = process.argv.slice(2).filter((arg) => arg !== '--');
+const seedFilePath = cliArgs[0] ?? 'data/seed.sample.json';
+const serviceAccountPath = cliArgs[1] ?? 'firebase-service-account.json';
 
 const loadJson = async <T>(filePath: string): Promise<T> => {
   const buffer = await readFile(filePath, 'utf8');
@@ -61,7 +62,7 @@ const main = async () => {
 
   if (isSeedPayload(payload)) {
     await Promise.all(
-      payload.players.map((player) => db.collection('players').doc(player.id).set({ name: player.name })),
+      payload.players.map(({ id, ...player }) => db.collection('players').doc(id).set(player)),
     );
 
     await Promise.all(
@@ -82,7 +83,7 @@ const main = async () => {
 
   if (isPlayerSeedPayload(payload)) {
     await Promise.all(
-      payload.players.map((player) => db.collection('players').doc(player.id).set({ name: player.name })),
+      payload.players.map(({ id, ...player }) => db.collection('players').doc(id).set(player)),
     );
 
     console.log(`Seeded ${payload.players.length} players.`);

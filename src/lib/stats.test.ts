@@ -2,6 +2,7 @@ import {
   averageStatLine,
   calculatePercentage,
   formatRecord,
+  getAvailablePlayersForGame,
   getCompletedRegularSeasonGames,
   getPlayerStatsForGame,
   getPlayerStatsForPlayer,
@@ -88,5 +89,30 @@ describe('stats helpers', () => {
     expect(missingGameTotals.pts).toBe(70);
     expect(missingGameTotals.reb).toBe(27);
     expect(missingGameStats.find((stat) => stat.playerId === 'p1')?.pts).toBe(28);
+  });
+
+  it('excludes absent players from estimated stats for a game', () => {
+    const players: Player[] = [
+      { id: 'p1', name: 'Alex' },
+      { id: 'p2', name: 'Blair' },
+      { id: 'p3', name: 'Casey' },
+    ];
+    const games: Game[] = [
+      { id: 'g1', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 80, oppScore: 70 },
+      { id: 'g2', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 75, oppScore: 74, absentPlayerNames: ['Casey'] },
+    ];
+    const stats: PlayerGameStat[] = [
+      { id: 's1', playerId: 'p1', gameId: 'g1', pts: 30, reb: 8, ast: 5, fgm: 10, fga: 18, tpm: 2, tpa: 5, stl: 1, blk: 0 },
+      { id: 's2', playerId: 'p2', gameId: 'g1', pts: 35, reb: 10, ast: 4, fgm: 13, fga: 20, tpm: 3, tpa: 7, stl: 1, blk: 1 },
+      { id: 's3', playerId: 'p3', gameId: 'g1', pts: 15, reb: 4, ast: 2, fgm: 6, fga: 10, tpm: 1, tpa: 3, stl: 0, blk: 0 },
+    ];
+
+    const estimatedStats = getStatsForMode(games, players, stats, 'estimated');
+    const missingGameStats = getPlayerStatsForGame(estimatedStats, 'g2');
+
+    expect(getAvailablePlayersForGame(games[1], players).map((player) => player.id)).toEqual(['p1', 'p2']);
+    expect(missingGameStats).toHaveLength(2);
+    expect(missingGameStats.some((stat) => stat.playerId === 'p3')).toBe(false);
+    expect(sumStatLines(missingGameStats).pts).toBe(75);
   });
 });

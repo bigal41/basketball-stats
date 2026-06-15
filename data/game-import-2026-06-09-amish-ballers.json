@@ -1,0 +1,121 @@
+{
+  "game": {
+    "id": "71f0c1cb-1268-49fd-8a94-f69f5533076d",
+    "date": "2026-06-09",
+    "opponent": "Amish Ballers",
+    "teamScore": 88,
+    "oppScore": 90,
+    "status": "completed",
+    "gameType": "regular"
+  },
+  "playerStats": [
+    {
+      "playerName": "Kyle",
+      "pts": 40,
+      "reb": 35,
+      "ast": 2,
+      "fgm": 17,
+      "fga": 40,
+      "tpm": 6,
+      "tpa": 17,
+      "stl": 2,
+      "blk": 1
+    },
+    {
+      "playerName": "Cameron",
+      "pts": 21,
+      "reb": 6,
+      "ast": 8,
+      "fgm": 10,
+      "fga": 26,
+      "tpm": 1,
+      "tpa": 18,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Collin",
+      "pts": 5,
+      "reb": 3,
+      "ast": 0,
+      "fgm": 2,
+      "fga": 11,
+      "tpm": 1,
+      "tpa": 8,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Uday",
+      "pts": 0,
+      "reb": 0,
+      "ast": 0,
+      "fgm": 0,
+      "fga": 0,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Alex C",
+      "pts": 8,
+      "reb": 7,
+      "ast": 4,
+      "fgm": 4,
+      "fga": 8,
+      "tpm": 0,
+      "tpa": 2,
+      "stl": 1,
+      "blk": 0
+    },
+    {
+      "playerName": "Akshay",
+      "pts": 2,
+      "reb": 3,
+      "ast": 0,
+      "fgm": 1,
+      "fga": 1,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Mitch",
+      "pts": 4,
+      "reb": 8,
+      "ast": 1,
+      "fgm": 2,
+      "fga": 4,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Alex",
+      "pts": 6,
+      "reb": 3,
+      "ast": 1,
+      "fgm": 3,
+      "fga": 6,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 2
+    },
+    {
+      "playerName": "Zach",
+      "pts": 2,
+      "reb": 4,
+      "ast": 2,
+      "fgm": 1,
+      "fga": 3,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    }
+  ]
+}

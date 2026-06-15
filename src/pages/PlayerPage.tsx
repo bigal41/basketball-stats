@@ -11,6 +11,7 @@ import {
   sumStatLines,
 } from '../lib/stats';
 import { DeferredPlayerTrendChart } from '../ui/LazyCharts';
+import { PlayerBadge } from '../ui/PlayerBadge';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatCard } from '../ui/StatCard';
@@ -80,6 +81,11 @@ export const PlayerPage = () => {
           </div>
         }
       >
+        {player.sub ? (
+          <div className="mb-4">
+            <PlayerBadge label="Sub" tone="muted" />
+          </div>
+        ) : null}
         <p className="mb-4 text-sm text-[var(--text-secondary)]">{statsModeSummary}</p>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard label="Total Points" value={`${totals.pts}`} />
@@ -167,10 +173,9 @@ export const PlayerPage = () => {
                         <Link className="hover:text-[var(--accent)]" to={`/games/${stat.gameId}`}>
                           {game?.opponent ?? stat.gameId}
                         </Link>
+                        {player.sub ? <PlayerBadge label="Sub" tone="muted" /> : null}
                         {stat.isEstimated ? (
-                          <span className="ml-2 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
-                            Est
-                          </span>
+                          <PlayerBadge label="Est" />
                         ) : null}
                       </td>
                       <td className="px-3 py-3">{stat.pts}</td>

@@ -36,7 +36,8 @@ If Firebase env vars are missing, the app falls back to local sample data so the
 - `playerGameStats`
 - `leagueGames`
 
-`games` documents support the schedule/result fields used by the app and can optionally include `youtubeUrl` or `youtubeUrls` for recorded games.
+`games` documents support the schedule/result fields used by the app and can optionally include `youtubeUrl`, `youtubeUrls`, or `absentPlayerNames` for estimated-stat exclusions on specific games.
+`players` documents support the player profile fields used by the app and seed scripts, including optional flags like `sub`.
 `leagueGames` documents support team-level league results used by the standings page.
 
 ## Seed Workflow

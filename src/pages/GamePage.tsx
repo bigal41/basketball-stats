@@ -3,6 +3,7 @@ import { useStatsMode } from '../hooks/useStatsMode';
 import { useSeasonData } from '../hooks/useSeasonData';
 import { calculatePercentage, formatPercentage, getPlayerStatsForGame, getStatsForMode, sumStatLines } from '../lib/stats';
 import { DeferredPlayerBarChart } from '../ui/LazyCharts';
+import { PlayerBadge } from '../ui/PlayerBadge';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
 import { StatsModeToggle } from '../ui/StatsModeToggle';
@@ -35,11 +36,13 @@ export const GamePage = () => {
   const stats = hasRecordedStats
     ? recordedStats.map((stat) => ({ ...stat, isEstimated: false }))
     : getPlayerStatsForGame(activeSeasonStats, game.id);
-  const playerLookup = new Map(data.players.map((player) => [player.id, player.name]));
+  const playerLookup = new Map(data.players.map((player) => [player.id, player]));
   const totals = sumStatLines(stats);
   const hasEstimatedStats = stats.some((stat) => stat.isEstimated);
+  const absentPlayerNames = new Set((game.absentPlayerNames ?? []).map((name) => name.trim().toLowerCase()));
+  const absentPlayers = data.players.filter((player) => absentPlayerNames.has(player.name.trim().toLowerCase()));
   const chartData = stats.map((stat) => ({
-    name: playerLookup.get(stat.playerId) ?? stat.playerId,
+    name: playerLookup.get(stat.playerId)?.name ?? stat.playerId,
     value: stat.pts,
     attempts: stat.fga,
   }));
@@ -123,6 +126,11 @@ export const GamePage = () => {
                 Estimated box score. These values were generated from prior player shares and are not official stats.
               </div>
             ) : null}
+            {hasEstimatedStats && absentPlayers.length > 0 ? (
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                Excluded from estimates for this game: {absentPlayers.map((player) => player.name).join(', ')}.
+              </div>
+            ) : null}
             <div className="overflow-x-auto">
               <table className="min-w-[720px] border-separate border-spacing-y-3">
                 <thead>
@@ -142,12 +150,11 @@ export const GamePage = () => {
                     <tr key={`${stat.gameId}_${stat.playerId}`} className="rounded-2xl bg-[var(--table-row)] text-sm text-[var(--text-primary)]">
                       <td className="rounded-l-2xl px-3 py-3 font-semibold">
                         <Link className="hover:text-[var(--accent)]" to={`/players/${stat.playerId}`}>
-                          {playerLookup.get(stat.playerId) ?? stat.playerId}
+                          {playerLookup.get(stat.playerId)?.name ?? stat.playerId}
                         </Link>
+                        {playerLookup.get(stat.playerId)?.sub ? <PlayerBadge label="Sub" tone="muted" /> : null}
                         {stat.isEstimated ? (
-                          <span className="ml-2 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] uppercase tracking-[0.16em] text-[var(--accent)]">
-                            Est
-                          </span>
+                          <PlayerBadge label="Est" />
                         ) : null}
                       </td>
                       <td className="px-3 py-3">{stat.pts}</td>

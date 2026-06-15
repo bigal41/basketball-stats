@@ -20,7 +20,6 @@
   },
   "playerStats": [
     {
-      "id": "2026-06-02-lamelos-balls-kyle",
       "playerName": "Kyle",
       "pts": 19,
       "reb": 16,
@@ -33,7 +32,6 @@
       "blk": 2
     },
     {
-      "id": "2026-06-02-lamelos-balls-cameron",
       "playerName": "Cameron",
       "pts": 30,
       "reb": 5,
@@ -46,7 +44,6 @@
       "blk": 2
     },
     {
-      "id": "2026-06-02-lamelos-balls-uday",
       "playerName": "Uday",
       "pts": 0,
       "reb": 0,
@@ -59,7 +56,6 @@
       "blk": 1
     },
     {
-      "id": "2026-06-02-lamelos-balls-collin",
       "playerName": "Collin",
       "pts": 12,
       "reb": 4,
@@ -72,8 +68,7 @@
       "blk": 0
     },
     {
-      "id": "2026-06-02-lamelos-balls-alex",
-      "playerName": "Alex",
+      "playerName": "Alex C",
       "pts": 7,
       "reb": 7,
       "ast": 1,
@@ -85,7 +80,6 @@
       "blk": 1
     },
     {
-      "id": "2026-06-02-lamelos-balls-justin",
       "playerName": "Justin",
       "pts": 13,
       "reb": 8,
