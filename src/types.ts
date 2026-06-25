@@ -55,6 +55,40 @@ export interface SeasonData {
   playerGameStats: PlayerGameStat[];
 }
 
+export interface TeamEloRating {
+  team: string;
+  rating: number;
+  gamesProcessed: number;
+  lastUpdated: string | null;
+}
+
+export interface EloTimelineEntry {
+  resultId: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeTeamPreRating: number;
+  awayTeamPreRating: number;
+  homeTeamPostRating: number;
+  awayTeamPostRating: number;
+}
+
+export interface GameProjection {
+  gameId: string;
+  date: string;
+  opponent: string;
+  teamElo: number;
+  opponentElo: number;
+  winProbability: number;
+  projectedSpread: number;
+}
+
+export interface DashboardData extends SeasonData {
+  currentRatingsByTeam: Record<string, TeamEloRating>;
+  ratingTimeline: EloTimelineEntry[];
+  futureGameProjections: GameProjection[];
+}
+
 export interface StatLine {
   pts: number;
   reb: number;

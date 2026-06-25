@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useDashboardData } from '../hooks/useDashboardData';
 import { useStatsMode } from '../hooks/useStatsMode';
-import { useSeasonData } from '../hooks/useSeasonData';
 import type { GameType } from '../types';
 import {
   formatRecord,
@@ -21,7 +21,7 @@ import { StatCard } from '../ui/StatCard';
 import { StatsModeToggle } from '../ui/StatsModeToggle';
 
 export const DashboardPage = () => {
-  const { data, isLoading, error } = useSeasonData();
+  const { data, isLoading, error } = useDashboardData();
   const { statsMode, setStatsMode } = useStatsMode();
 
   if (isLoading) {
@@ -154,6 +154,39 @@ export const DashboardPage = () => {
         </SectionCard>
       </div>
 
+      {data.futureGameProjections.length > 0 ? (
+        <SectionCard title="Projections">
+          <div className="space-y-3">
+            {data.futureGameProjections.map((projection) => (
+              <article
+                key={projection.gameId}
+                className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] px-4 py-4"
+              >
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--text-muted)]">
+                    {projection.date}
+                  </p>
+                  <p className="mt-1 text-base font-bold text-[var(--text-primary)]">
+                    vs {projection.opponent}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--text-muted)]">
+                    Win Probability
+                  </p>
+                  <p className="mt-1 text-lg font-black text-[var(--accent)]">
+                    {formatProjectionWinProbability(projection.winProbability)}
+                  </p>
+                  <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
+                    Spread: {formatProjectionSpread(projection.projectedSpread)}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </SectionCard>
+      ) : null}
+
       <SectionCard title="Team Trends">
         {teamTrendData.length === 0 ? (
           <StatePanel title="No completed games yet" body="Completed games will unlock trend charts." />
@@ -167,6 +200,17 @@ export const DashboardPage = () => {
       </SectionCard>
     </div>
   );
+};
+
+const formatProjectionWinProbability = (winProbability: number): string =>
+  `${(winProbability * 100).toFixed(1)}%`;
+
+const formatProjectionSpread = (projectedSpread: number): string => {
+  if (projectedSpread === 0) {
+    return "Pick'em";
+  }
+
+  return `Ballers United ${projectedSpread > 0 ? '+' : ''}${projectedSpread.toFixed(1)}`;
 };
 
 const GameTypeBadge = ({ gameType }: { gameType?: GameType }) => {

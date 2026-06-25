@@ -1,8 +1,16 @@
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore/lite';
 import { db, hasFirebaseConfig } from './firebase';
+import { buildEloRatings, buildFutureGameProjections } from './elo';
 import { leagueResults } from './league';
 import { sampleData } from './sampleData';
-import type { Game, LeagueGameResult, Player, PlayerGameStat, SeasonData } from '../types';
+import type {
+  DashboardData,
+  Game,
+  LeagueGameResult,
+  Player,
+  PlayerGameStat,
+  SeasonData,
+} from '../types';
 
 const sortByDate = (games: Game[]) => [...games].sort((a, b) => a.date.localeCompare(b.date));
 
@@ -90,4 +98,17 @@ export const getLeagueResults = async (): Promise<LeagueGameResult[]> => {
     id: doc.id,
     ...doc.data(),
   })) as LeagueGameResult[];
+};
+
+export const getDashboardData = async (): Promise<DashboardData> => {
+  const [seasonData, results] = await Promise.all([getSeasonData(), getLeagueResults()]);
+  const { currentRatingsByTeam, ratingTimeline } = buildEloRatings(results);
+  const futureGameProjections = buildFutureGameProjections(seasonData.games, currentRatingsByTeam);
+
+  return {
+    ...seasonData,
+    currentRatingsByTeam,
+    ratingTimeline,
+    futureGameProjections,
+  };
 };
