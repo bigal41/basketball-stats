@@ -37,7 +37,7 @@ export const sampleData: SeasonData = {
     {
       id: '71f0c1cb-1268-49fd-8a94-f69f5533076d',
       date: '2026-06-09',
-      opponent: '#1-Indy 1',
+      opponent: '#1-Amish Ballers',
       status: 'scheduled',
       gameType: 'regular',
     },
