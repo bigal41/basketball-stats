@@ -212,6 +212,7 @@ const estimateStatsForGame = (
 
   return players.map((player) => ({
     id: `estimated_${game.id}_${player.id}`,
+    seasonId: game.seasonId,
     playerId: player.id,
     gameId: game.id,
     pts: allocations.pts.get(player.id) ?? 0,

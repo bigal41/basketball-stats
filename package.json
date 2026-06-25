@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "seed": "tsx scripts/seed-firestore.ts"
+    "seed": "tsx scripts/seed-firestore.ts",
+    "backfill:season": "tsx scripts/backfill-season.ts"
   },
   "dependencies": {
     "firebase": "^11.10.0",

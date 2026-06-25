@@ -1,5 +1,14 @@
 export type GameStatus = 'scheduled' | 'completed';
 export type GameType = 'preseason' | 'regular' | 'playoff';
+export type SeasonKind = 'summer' | 'winter' | 'fall' | 'spring' | 'custom';
+
+export interface Season {
+  id: string;
+  label: string;
+  year: number;
+  kind: SeasonKind;
+  isActive: boolean;
+}
 
 export interface GameVideoLink {
   label: string;
@@ -8,6 +17,7 @@ export interface GameVideoLink {
 
 export interface LeagueGameResult {
   id: string;
+  seasonId: string;
   date: string;
   homeTeam: string;
   awayTeam: string;
@@ -17,6 +27,7 @@ export interface LeagueGameResult {
 
 export interface Game {
   id: string;
+  seasonId: string;
   date: string;
   opponent: string;
   teamScore?: number;
@@ -36,6 +47,7 @@ export interface Player {
 
 export interface PlayerGameStat {
   id: string;
+  seasonId: string;
   playerId: string;
   gameId: string;
   pts: number;
@@ -50,6 +62,7 @@ export interface PlayerGameStat {
 }
 
 export interface SeasonData {
+  season: Season;
   games: Game[];
   players: Player[];
   playerGameStats: PlayerGameStat[];

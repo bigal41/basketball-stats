@@ -1,6 +1,8 @@
 import type { SeasonData } from '../types';
+import { defaultSeason } from './seasons';
 
 export const sampleData: SeasonData = {
+  season: defaultSeason,
   players: [
     { id: '9f244eee-d3aa-4f59-8456-f9e568b56c4d', name: 'Kyle' },
     { id: 'a3b73dc1-5d0e-4550-b1f0-c18130179eb8', name: 'Cameron' },
@@ -12,6 +14,7 @@ export const sampleData: SeasonData = {
   games: [
     {
       id: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3',
+      seasonId: defaultSeason.id,
       date: '2026-05-19',
       opponent: '#3-United Splash Bros',
       teamScore: 78,
@@ -22,6 +25,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '2a4d0f37-a395-44e8-a6f3-ed5ff62f3082',
+      seasonId: defaultSeason.id,
       date: '2026-05-26',
       opponent: '#3-United Splash Bros',
       status: 'scheduled',
@@ -29,6 +33,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '4cf55db6-145b-4c54-9e9f-8b9177b22c38',
+      seasonId: defaultSeason.id,
       date: '2026-06-02',
       opponent: "#6-LaMelo's Balls",
       status: 'scheduled',
@@ -36,6 +41,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '71f0c1cb-1268-49fd-8a94-f69f5533076d',
+      seasonId: defaultSeason.id,
       date: '2026-06-09',
       opponent: '#1-Amish Ballers',
       status: 'scheduled',
@@ -43,6 +49,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '0f6f1aa2-9373-46d0-bca5-c1461f1953f8',
+      seasonId: defaultSeason.id,
       date: '2026-06-16',
       opponent: '#4-Mount Sumit',
       status: 'scheduled',
@@ -50,6 +57,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: 'a3966500-659b-4bdf-94d3-4a10031d6e14',
+      seasonId: defaultSeason.id,
       date: '2026-06-23',
       opponent: '#4-Mount Sumit',
       status: 'scheduled',
@@ -57,6 +65,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: 'b81822a4-ec98-4bb7-b602-baf33d1dbeb1',
+      seasonId: defaultSeason.id,
       date: '2026-06-30',
       opponent: '#5-Make a Swish Foundation',
       status: 'scheduled',
@@ -64,6 +73,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '6b43f6fa-b965-471b-9851-f50a6af80399',
+      seasonId: defaultSeason.id,
       date: '2026-07-07',
       opponent: '#2-Grape Soda',
       status: 'scheduled',
@@ -71,6 +81,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: 'c73e6289-a8e7-48f9-b1d4-ae6a45464e6e',
+      seasonId: defaultSeason.id,
       date: '2026-07-14',
       opponent: '#8-Pick & Pizza Roll',
       status: 'scheduled',
@@ -78,6 +89,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '8de92ca8-b53d-4b20-ad3f-2c13c7be8669',
+      seasonId: defaultSeason.id,
       date: '2026-07-21',
       opponent: '#2-Grape Soda',
       status: 'scheduled',
@@ -85,6 +97,7 @@ export const sampleData: SeasonData = {
     },
     {
       id: '086ca590-ecbe-4d8b-b1c8-d85616f640d2',
+      seasonId: defaultSeason.id,
       date: '2026-07-28',
       opponent: '#8-Pick & Pizza Roll',
       status: 'scheduled',
@@ -92,11 +105,11 @@ export const sampleData: SeasonData = {
     },
   ],
   playerGameStats: [
-    { id: '87154bbf-c37f-4841-a7ae-9f2d184a39de', playerId: '9f244eee-d3aa-4f59-8456-f9e568b56c4d', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 34, reb: 18, ast: 2, fgm: 14, fga: 24, tpm: 6, tpa: 12, stl: 3, blk: 2 },
-    { id: '72005f79-073a-4cf7-a3e0-54f77d421e2b', playerId: 'a3b73dc1-5d0e-4550-b1f0-c18130179eb8', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 27, reb: 8, ast: 5, fgm: 12, fga: 24, tpm: 3, tpa: 13, stl: 0, blk: 0 },
-    { id: 'a2ca1f42-a7d5-4128-aa8b-b7c5a775ec18', playerId: '0ab2f67d-1cc3-4e72-bec3-bd3aeb6a2c82', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 2, reb: 5, ast: 0, fgm: 1, fga: 1, tpm: 0, tpa: 0, stl: 0, blk: 0 },
-    { id: '3492dc8c-ef64-4d82-b053-b4c5f2329ef7', playerId: '2433894e-e5b5-45c0-9621-a8c7e7d44db4', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 9, reb: 6, ast: 0, fgm: 3, fga: 9, tpm: 3, tpa: 7, stl: 0, blk: 0 },
-    { id: '415207f0-a0dd-45e1-b545-1c267a17c86e', playerId: '64fec1e1-2e38-4878-adf4-0b6318ca9066', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 0, reb: 4, ast: 1, fgm: 0, fga: 2, tpm: 0, tpa: 1, stl: 0, blk: 1 },
-    { id: '6d5648f1-1749-40af-b5f0-401a14c35056', playerId: '2cdfa2e4-7791-477a-b1e7-bd17d6260b5a', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 4, reb: 6, ast: 0, fgm: 2, fga: 6, tpm: 0, tpa: 2, stl: 0, blk: 2 },
+    { id: '87154bbf-c37f-4841-a7ae-9f2d184a39de', seasonId: defaultSeason.id, playerId: '9f244eee-d3aa-4f59-8456-f9e568b56c4d', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 34, reb: 18, ast: 2, fgm: 14, fga: 24, tpm: 6, tpa: 12, stl: 3, blk: 2 },
+    { id: '72005f79-073a-4cf7-a3e0-54f77d421e2b', seasonId: defaultSeason.id, playerId: 'a3b73dc1-5d0e-4550-b1f0-c18130179eb8', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 27, reb: 8, ast: 5, fgm: 12, fga: 24, tpm: 3, tpa: 13, stl: 0, blk: 0 },
+    { id: 'a2ca1f42-a7d5-4128-aa8b-b7c5a775ec18', seasonId: defaultSeason.id, playerId: '0ab2f67d-1cc3-4e72-bec3-bd3aeb6a2c82', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 2, reb: 5, ast: 0, fgm: 1, fga: 1, tpm: 0, tpa: 0, stl: 0, blk: 0 },
+    { id: '3492dc8c-ef64-4d82-b053-b4c5f2329ef7', seasonId: defaultSeason.id, playerId: '2433894e-e5b5-45c0-9621-a8c7e7d44db4', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 9, reb: 6, ast: 0, fgm: 3, fga: 9, tpm: 3, tpa: 7, stl: 0, blk: 0 },
+    { id: '415207f0-a0dd-45e1-b545-1c267a17c86e', seasonId: defaultSeason.id, playerId: '64fec1e1-2e38-4878-adf4-0b6318ca9066', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 0, reb: 4, ast: 1, fgm: 0, fga: 2, tpm: 0, tpa: 1, stl: 0, blk: 1 },
+    { id: '6d5648f1-1749-40af-b5f0-401a14c35056', seasonId: defaultSeason.id, playerId: '2cdfa2e4-7791-477a-b1e7-bd17d6260b5a', gameId: 'f6d6f7a5-7d4d-4fd3-922f-e3f4b3c44ca3', pts: 4, reb: 6, ast: 0, fgm: 2, fga: 6, tpm: 0, tpa: 2, stl: 0, blk: 2 },
   ],
 };

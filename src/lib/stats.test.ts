@@ -48,12 +48,12 @@ describe('stats helpers', () => {
 
   it('reports stat coverage across completed games', () => {
     const games: Game[] = [
-      { id: 'g1', date: '2026-01-01', opponent: 'One', status: 'completed' },
-      { id: 'g2', date: '2026-01-08', opponent: 'Two', status: 'completed' },
-      { id: 'g3', date: '2026-01-15', opponent: 'Three', status: 'scheduled' },
+      { id: 'g1', seasonId: '2026-summer', date: '2026-01-01', opponent: 'One', status: 'completed' },
+      { id: 'g2', seasonId: '2026-summer', date: '2026-01-08', opponent: 'Two', status: 'completed' },
+      { id: 'g3', seasonId: '2026-summer', date: '2026-01-15', opponent: 'Three', status: 'scheduled' },
     ];
     const stats: PlayerGameStat[] = [
-      { id: 's1', playerId: 'p1', gameId: 'g1', pts: 10, reb: 1, ast: 1, fgm: 4, fga: 8, tpm: 1, tpa: 3, stl: 1, blk: 0 },
+      { id: 's1', seasonId: '2026-summer', playerId: 'p1', gameId: 'g1', pts: 10, reb: 1, ast: 1, fgm: 4, fga: 8, tpm: 1, tpa: 3, stl: 1, blk: 0 },
     ];
 
     expect(getStatCoverage(games, stats)).toEqual({
@@ -69,15 +69,15 @@ describe('stats helpers', () => {
       { id: 'p2', name: 'Blair' },
     ];
     const games: Game[] = [
-      { id: 'g1', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 76, oppScore: 70 },
-      { id: 'g2', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 60, oppScore: 55 },
-      { id: 'g3', date: '2026-01-15', opponent: 'Three', status: 'completed', teamScore: 70, oppScore: 65 },
+      { id: 'g1', seasonId: '2026-summer', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 76, oppScore: 70 },
+      { id: 'g2', seasonId: '2026-summer', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 60, oppScore: 55 },
+      { id: 'g3', seasonId: '2026-summer', date: '2026-01-15', opponent: 'Three', status: 'completed', teamScore: 70, oppScore: 65 },
     ];
     const stats: PlayerGameStat[] = [
-      { id: 's1', playerId: 'p1', gameId: 'g1', pts: 34, reb: 10, ast: 4, fgm: 12, fga: 20, tpm: 3, tpa: 7, stl: 1, blk: 0 },
-      { id: 's2', playerId: 'p2', gameId: 'g1', pts: 42, reb: 20, ast: 8, fgm: 15, fga: 30, tpm: 4, tpa: 9, stl: 2, blk: 1 },
-      { id: 's3', playerId: 'p1', gameId: 'g2', pts: 20, reb: 8, ast: 3, fgm: 7, fga: 14, tpm: 2, tpa: 5, stl: 1, blk: 0 },
-      { id: 's4', playerId: 'p2', gameId: 'g2', pts: 40, reb: 16, ast: 6, fgm: 14, fga: 28, tpm: 4, tpa: 8, stl: 1, blk: 1 },
+      { id: 's1', seasonId: '2026-summer', playerId: 'p1', gameId: 'g1', pts: 34, reb: 10, ast: 4, fgm: 12, fga: 20, tpm: 3, tpa: 7, stl: 1, blk: 0 },
+      { id: 's2', seasonId: '2026-summer', playerId: 'p2', gameId: 'g1', pts: 42, reb: 20, ast: 8, fgm: 15, fga: 30, tpm: 4, tpa: 9, stl: 2, blk: 1 },
+      { id: 's3', seasonId: '2026-summer', playerId: 'p1', gameId: 'g2', pts: 20, reb: 8, ast: 3, fgm: 7, fga: 14, tpm: 2, tpa: 5, stl: 1, blk: 0 },
+      { id: 's4', seasonId: '2026-summer', playerId: 'p2', gameId: 'g2', pts: 40, reb: 16, ast: 6, fgm: 14, fga: 28, tpm: 4, tpa: 8, stl: 1, blk: 1 },
     ];
 
     const estimatedStats = getStatsForMode(games, players, stats, 'estimated');
@@ -98,13 +98,13 @@ describe('stats helpers', () => {
       { id: 'p3', name: 'Casey' },
     ];
     const games: Game[] = [
-      { id: 'g1', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 80, oppScore: 70 },
-      { id: 'g2', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 75, oppScore: 74, absentPlayerNames: ['Casey'] },
+      { id: 'g1', seasonId: '2026-summer', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 80, oppScore: 70 },
+      { id: 'g2', seasonId: '2026-summer', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 75, oppScore: 74, absentPlayerNames: ['Casey'] },
     ];
     const stats: PlayerGameStat[] = [
-      { id: 's1', playerId: 'p1', gameId: 'g1', pts: 30, reb: 8, ast: 5, fgm: 10, fga: 18, tpm: 2, tpa: 5, stl: 1, blk: 0 },
-      { id: 's2', playerId: 'p2', gameId: 'g1', pts: 35, reb: 10, ast: 4, fgm: 13, fga: 20, tpm: 3, tpa: 7, stl: 1, blk: 1 },
-      { id: 's3', playerId: 'p3', gameId: 'g1', pts: 15, reb: 4, ast: 2, fgm: 6, fga: 10, tpm: 1, tpa: 3, stl: 0, blk: 0 },
+      { id: 's1', seasonId: '2026-summer', playerId: 'p1', gameId: 'g1', pts: 30, reb: 8, ast: 5, fgm: 10, fga: 18, tpm: 2, tpa: 5, stl: 1, blk: 0 },
+      { id: 's2', seasonId: '2026-summer', playerId: 'p2', gameId: 'g1', pts: 35, reb: 10, ast: 4, fgm: 13, fga: 20, tpm: 3, tpa: 7, stl: 1, blk: 1 },
+      { id: 's3', seasonId: '2026-summer', playerId: 'p3', gameId: 'g1', pts: 15, reb: 4, ast: 2, fgm: 6, fga: 10, tpm: 1, tpa: 3, stl: 0, blk: 0 },
     ];
 
     const estimatedStats = getStatsForMode(games, players, stats, 'estimated');

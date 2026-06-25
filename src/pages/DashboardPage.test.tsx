@@ -2,6 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { DashboardPage } from './DashboardPage';
 import type { DashboardData } from '../types';
+import { defaultSeason } from '../lib/seasons';
 
 vi.mock('../hooks/useDashboardData', () => ({
   useDashboardData: vi.fn(),
@@ -22,9 +23,11 @@ vi.mock('../ui/LazyCharts', () => ({
 const { useDashboardData } = await import('../hooks/useDashboardData');
 
 const baseData: DashboardData = {
+  season: defaultSeason,
   games: [
     {
       id: 'g1',
+      seasonId: defaultSeason.id,
       date: '2026-06-30',
       opponent: '#5-Make a Swish Foundation',
       status: 'scheduled',

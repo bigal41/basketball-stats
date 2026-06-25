@@ -1,4 +1,5 @@
 import type { LeagueGameResult } from '../types';
+import { defaultSeason } from './seasons';
 
 export interface LeagueStanding {
   team: string;
@@ -14,6 +15,7 @@ export interface LeagueStanding {
 export const leagueResults: LeagueGameResult[] = [
   {
     id: '2026-05-26-grape-soda-lamelos-balls',
+    seasonId: defaultSeason.id,
     date: '2026-05-26',
     homeTeam: 'Grape Soda',
     awayTeam: "LaMelo's Balls",
@@ -22,6 +24,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-05-26-mount-sumit-pick-pizza-roll',
+    seasonId: defaultSeason.id,
     date: '2026-05-26',
     homeTeam: 'Mount Sumit',
     awayTeam: 'Pick & Pizza Roll',
@@ -30,6 +33,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-05-26-ballers-united-united-splash-bros',
+    seasonId: defaultSeason.id,
     date: '2026-05-26',
     homeTeam: 'Ballers United',
     awayTeam: 'United Splash Bros',
@@ -38,6 +42,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-05-26-amish-ballers-make-a-swish-foundation',
+    seasonId: defaultSeason.id,
     date: '2026-05-26',
     homeTeam: 'Amish Ballers',
     awayTeam: 'Make a Swish Foundation',
@@ -46,6 +51,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-02-mount-sumit-make-a-swish-foundation',
+    seasonId: defaultSeason.id,
     date: '2026-06-02',
     homeTeam: 'Mount Sumit',
     awayTeam: 'Make a Swish Foundation',
@@ -54,6 +60,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-02-grape-soda-amish-ballers',
+    seasonId: defaultSeason.id,
     date: '2026-06-02',
     homeTeam: 'Grape Soda',
     awayTeam: 'Amish Ballers',
@@ -62,6 +69,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-02-ballers-united-lamelos-balls',
+    seasonId: defaultSeason.id,
     date: '2026-06-02',
     homeTeam: 'Ballers United',
     awayTeam: "LaMelo's Balls",
@@ -70,6 +78,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-02-pick-pizza-roll-united-splash-bros',
+    seasonId: defaultSeason.id,
     date: '2026-06-02',
     homeTeam: 'Pick & Pizza Roll',
     awayTeam: 'United Splash Bros',
@@ -78,6 +87,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-09-united-splash-bros-lamelos-balls',
+    seasonId: defaultSeason.id,
     date: '2026-06-09',
     homeTeam: 'United Splash Bros',
     awayTeam: "LaMelo's Balls",
@@ -86,6 +96,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-09-pick-pizza-roll-make-a-swish-foundation',
+    seasonId: defaultSeason.id,
     date: '2026-06-09',
     homeTeam: 'Pick & Pizza Roll',
     awayTeam: 'Make a Swish Foundation',
@@ -94,6 +105,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-09-amish-ballers-ballers-united',
+    seasonId: defaultSeason.id,
     date: '2026-06-09',
     homeTeam: 'Amish Ballers',
     awayTeam: 'Ballers United',
@@ -102,6 +114,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-09-mount-sumit-grape-soda',
+    seasonId: defaultSeason.id,
     date: '2026-06-09',
     homeTeam: 'Mount Sumit',
     awayTeam: 'Grape Soda',
@@ -110,6 +123,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-16-make-a-swish-foundation-united-splash-bros',
+    seasonId: defaultSeason.id,
     date: '2026-06-16',
     homeTeam: 'Make a Swish Foundation',
     awayTeam: 'United Splash Bros',
@@ -118,6 +132,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-16-ballers-united-mount-sumit',
+    seasonId: defaultSeason.id,
     date: '2026-06-16',
     homeTeam: 'Ballers United',
     awayTeam: 'Mount Sumit',
@@ -126,6 +141,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-16-lamelos-balls-amish-ballers',
+    seasonId: defaultSeason.id,
     date: '2026-06-16',
     homeTeam: "LaMelo's Balls",
     awayTeam: 'Amish Ballers',
@@ -134,6 +150,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-16-pick-pizza-roll-grape-soda',
+    seasonId: defaultSeason.id,
     date: '2026-06-16',
     homeTeam: 'Pick & Pizza Roll',
     awayTeam: 'Grape Soda',
@@ -142,6 +159,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-23-pick-pizza-roll-lamelos-balls',
+    seasonId: defaultSeason.id,
     date: '2026-06-23',
     homeTeam: 'Pick & Pizza Roll',
     awayTeam: "LaMelo's Balls",
@@ -150,6 +168,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-23-make-a-swish-foundation-grape-soda',
+    seasonId: defaultSeason.id,
     date: '2026-06-23',
     homeTeam: 'Make a Swish Foundation',
     awayTeam: 'Grape Soda',
@@ -158,6 +177,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-23-ballers-united-mount-sumit',
+    seasonId: defaultSeason.id,
     date: '2026-06-23',
     homeTeam: 'Ballers United',
     awayTeam: 'Mount Sumit',
@@ -166,6 +186,7 @@ export const leagueResults: LeagueGameResult[] = [
   },
   {
     id: '2026-06-23-united-splash-bros-amish-ballers',
+    seasonId: defaultSeason.id,
     date: '2026-06-23',
     homeTeam: 'United Splash Bros',
     awayTeam: 'Amish Ballers',

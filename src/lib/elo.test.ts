@@ -46,6 +46,7 @@ describe('elo helpers', () => {
       [
         {
           id: 'g1',
+          seasonId: '2026-summer',
           date: '2026-07-30',
           opponent: '#9-New Team',
           status: 'scheduled',
