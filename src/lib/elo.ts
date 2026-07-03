@@ -2,6 +2,8 @@ import type {
   EloTimelineEntry,
   Game,
   GameProjection,
+  LeagueGame,
+  LeagueGameProjection,
   LeagueGameResult,
   TeamEloRating,
 } from '../types';
@@ -79,6 +81,13 @@ export const buildEloRatings = (results: LeagueGameResult[]): EloComputation => 
   };
 };
 
+export const asCompletedLeagueGameResults = (games: LeagueGame[]): LeagueGameResult[] =>
+  games.filter((game): game is LeagueGameResult =>
+    game.status === 'completed'
+    && typeof game.homeScore === 'number'
+    && typeof game.awayScore === 'number',
+  );
+
 export const buildFutureGameProjections = (
   games: Game[],
   currentRatingsByTeam: Record<string, TeamEloRating>,
@@ -108,6 +117,36 @@ export const buildFutureGameProjections = (
         opponentElo: opponentRating,
         winProbability,
         projectedSpread,
+      };
+    });
+};
+
+export const buildFutureLeagueGameProjections = (
+  games: LeagueGame[],
+  currentRatingsByTeam: Record<string, TeamEloRating>,
+  options?: {
+    asOfDate?: string;
+  },
+): LeagueGameProjection[] => {
+  const asOfDate = options?.asOfDate ?? getTodayIsoDate();
+
+  return games
+    .filter((game) => game.status !== 'completed' && game.date >= asOfDate)
+    .sort((left, right) => left.date === right.date ? left.id.localeCompare(right.id) : left.date.localeCompare(right.date))
+    .map((game) => {
+      const homeTeamElo = currentRatingsByTeam[game.homeTeam]?.rating ?? ELO_INITIAL_RATING;
+      const awayTeamElo = currentRatingsByTeam[game.awayTeam]?.rating ?? ELO_INITIAL_RATING;
+      const homeWinProbability = calculateExpectedScore(homeTeamElo, awayTeamElo);
+
+      return {
+        gameId: game.id,
+        date: game.date,
+        homeTeam: game.homeTeam,
+        awayTeam: game.awayTeam,
+        homeTeamElo,
+        awayTeamElo,
+        homeWinProbability,
+        awayWinProbability: 1 - homeWinProbability,
       };
     });
 };

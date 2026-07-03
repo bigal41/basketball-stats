@@ -5,6 +5,7 @@
       "date": "2026-06-09",
       "homeTeam": "United Splash Bros",
       "awayTeam": "LaMelo's Balls",
+      "status": "completed",
       "homeScore": 46,
       "awayScore": 61
     },
@@ -13,6 +14,7 @@
       "date": "2026-06-09",
       "homeTeam": "Pick & Pizza Roll",
       "awayTeam": "Make a Swish Foundation",
+      "status": "completed",
       "homeScore": 65,
       "awayScore": 83
     },
@@ -21,6 +23,7 @@
       "date": "2026-06-09",
       "homeTeam": "Amish Ballers",
       "awayTeam": "Ballers United",
+      "status": "completed",
       "homeScore": 90,
       "awayScore": 88
     },
@@ -29,6 +32,7 @@
       "date": "2026-06-09",
       "homeTeam": "Mount Sumit",
       "awayTeam": "Grape Soda",
+      "status": "completed",
       "homeScore": 59,
       "awayScore": 72
     }

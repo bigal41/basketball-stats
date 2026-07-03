@@ -1,0 +1,32 @@
+{
+  "leagueGames": [
+    {
+      "id": "2026-07-21-united-splash-bros-amish-ballers",
+      "date": "2026-07-21",
+      "homeTeam": "United Splash Bros",
+      "awayTeam": "Amish Ballers",
+      "status": "scheduled"
+    },
+    {
+      "id": "2026-07-21-lamelos-balls-mount-sumit",
+      "date": "2026-07-21",
+      "homeTeam": "LaMelo's Balls",
+      "awayTeam": "Mount Sumit",
+      "status": "scheduled"
+    },
+    {
+      "id": "2026-07-21-pick-pizza-roll-make-a-swish-foundation",
+      "date": "2026-07-21",
+      "homeTeam": "Pick & Pizza Roll",
+      "awayTeam": "Make a Swish Foundation",
+      "status": "scheduled"
+    },
+    {
+      "id": "2026-07-21-grape-soda-ballers-united",
+      "date": "2026-07-21",
+      "homeTeam": "Grape Soda",
+      "awayTeam": "Ballers United",
+      "status": "scheduled"
+    }
+  ]
+}

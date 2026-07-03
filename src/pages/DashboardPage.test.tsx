@@ -38,6 +38,7 @@ const baseData: DashboardData = {
     { id: 'p1', name: 'Kyle' },
   ],
   playerGameStats: [],
+  leagueGames: [],
   currentRatingsByTeam: {},
   ratingTimeline: [],
   futureGameProjections: [
@@ -51,6 +52,7 @@ const baseData: DashboardData = {
       projectedSpread: -1,
     },
   ],
+  futureLeagueGameProjections: [],
 };
 
 describe('DashboardPage projections', () => {

@@ -4,7 +4,7 @@ import process from 'node:process';
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { DEFAULT_SEASON_ID, defaultSeason } from '../src/lib/seasons';
-import type { Game, LeagueGameResult, Player, PlayerGameStat, Season } from '../src/types';
+import type { Game, LeagueGame, Player, PlayerGameStat, Season } from '../src/types';
 
 interface SeedPayload {
   seasons?: Array<Season & { id: string }>;
@@ -22,7 +22,7 @@ interface PlayerSeedPayload {
 }
 
 interface LeagueResultsSeedPayload {
-  leagueGames: Array<LeagueGameResult & { id: string }>;
+  leagueGames: Array<LeagueGame & { id: string }>;
 }
 
 interface GameImportPayload {

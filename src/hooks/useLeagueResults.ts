@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { getLeagueResults } from '../lib/data';
-import type { LeagueGameResult } from '../types';
+import { getLeagueGames } from '../lib/data';
+import type { LeagueGame } from '../types';
 
 interface LeagueResultsState {
-  data: LeagueGameResult[] | null;
+  data: LeagueGame[] | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -18,7 +18,7 @@ export const useLeagueResults = (): LeagueResultsState => {
   useEffect(() => {
     let isMounted = true;
 
-    void getLeagueResults()
+    void getLeagueGames()
       .then((data) => {
         if (isMounted) {
           setState({ data, isLoading: false, error: null });

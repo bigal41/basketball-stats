@@ -1,13 +1,18 @@
 import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore/lite';
 import { db, hasFirebaseConfig } from './firebase';
-import { buildEloRatings, buildFutureGameProjections } from './elo';
+import {
+  asCompletedLeagueGameResults,
+  buildEloRatings,
+  buildFutureGameProjections,
+  buildFutureLeagueGameProjections,
+} from './elo';
 import { leagueResults } from './league';
 import { sampleData } from './sampleData';
 import { DEFAULT_SEASON_ID, defaultSeason } from './seasons';
 import type {
   DashboardData,
   Game,
-  LeagueGameResult,
+  LeagueGame,
   Season,
   Player,
   PlayerGameStat,
@@ -149,7 +154,12 @@ export const getStatsByPlayerId = async (playerId: string): Promise<PlayerGameSt
   }, activeSeason.id)) as PlayerGameStat[];
 };
 
-export const getLeagueResults = async (): Promise<LeagueGameResult[]> => {
+const withLeagueGameDefaults = (game: LeagueGame): LeagueGame => ({
+  ...game,
+  status: game.status ?? 'completed',
+});
+
+export const getLeagueGames = async (): Promise<LeagueGame[]> => {
   if (!hasFirebaseConfig || !db) {
     return leagueResults;
   }
@@ -164,32 +174,36 @@ export const getLeagueResults = async (): Promise<LeagueGameResult[]> => {
   );
 
   if (scopedLeagueGamesSnapshot.docs.length > 0) {
-    return scopedLeagueGamesSnapshot.docs.map((doc) => withSeasonId({
+    return scopedLeagueGamesSnapshot.docs.map((doc) => withLeagueGameDefaults(withSeasonId({
       id: doc.id,
       ...doc.data(),
-    }, activeSeason.id)) as LeagueGameResult[];
+    }, activeSeason.id) as LeagueGame));
   }
 
   const legacyLeagueGamesSnapshot = await getDocs(
     query(collection(db, 'leagueGames'), orderBy('date', 'asc')),
   );
 
-  return legacyLeagueGamesSnapshot.docs.map((doc) => withSeasonId({
+  return legacyLeagueGamesSnapshot.docs.map((doc) => withLeagueGameDefaults(withSeasonId({
     id: doc.id,
     ...doc.data(),
-  }, activeSeason.id)) as LeagueGameResult[];
+  }, activeSeason.id) as LeagueGame));
 };
 
 export const getDashboardData = async (): Promise<DashboardData> => {
-  const [seasonData, results] = await Promise.all([getSeasonData(), getLeagueResults()]);
-  const { currentRatingsByTeam, ratingTimeline } = buildEloRatings(results);
+  const [seasonData, leagueGames] = await Promise.all([getSeasonData(), getLeagueGames()]);
+  const completedResults = asCompletedLeagueGameResults(leagueGames);
+  const { currentRatingsByTeam, ratingTimeline } = buildEloRatings(completedResults);
   const futureGameProjections = buildFutureGameProjections(seasonData.games, currentRatingsByTeam);
+  const futureLeagueGameProjections = buildFutureLeagueGameProjections(leagueGames, currentRatingsByTeam);
 
   return {
     ...seasonData,
+    leagueGames,
     currentRatingsByTeam,
     ratingTimeline,
     futureGameProjections,
+    futureLeagueGameProjections,
   };
 };
 

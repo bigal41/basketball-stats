@@ -15,12 +15,19 @@ export interface GameVideoLink {
   url: string;
 }
 
-export interface LeagueGameResult {
+export interface LeagueGame {
   id: string;
   seasonId: string;
   date: string;
   homeTeam: string;
   awayTeam: string;
+  status: GameStatus;
+  homeScore?: number;
+  awayScore?: number;
+}
+
+export interface LeagueGameResult extends LeagueGame {
+  status: 'completed';
   homeScore: number;
   awayScore: number;
 }
@@ -96,10 +103,23 @@ export interface GameProjection {
   projectedSpread: number;
 }
 
+export interface LeagueGameProjection {
+  gameId: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeTeamElo: number;
+  awayTeamElo: number;
+  homeWinProbability: number;
+  awayWinProbability: number;
+}
+
 export interface DashboardData extends SeasonData {
+  leagueGames: LeagueGame[];
   currentRatingsByTeam: Record<string, TeamEloRating>;
   ratingTimeline: EloTimelineEntry[];
   futureGameProjections: GameProjection[];
+  futureLeagueGameProjections: LeagueGameProjection[];
 }
 
 export interface StatLine {

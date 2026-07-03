@@ -1,11 +1,18 @@
-import { buildFutureGameProjections, buildEloRatings, ELO_INITIAL_RATING, normalizeTeamName } from './elo';
+import {
+  asCompletedLeagueGameResults,
+  buildFutureGameProjections,
+  buildFutureLeagueGameProjections,
+  buildEloRatings,
+  ELO_INITIAL_RATING,
+  normalizeTeamName,
+} from './elo';
 import { leagueResults } from './league';
 import { sampleData } from './sampleData';
 import type { LeagueGameResult } from '../types';
 
 describe('elo helpers', () => {
   it('starts teams at 1200 before their first game', () => {
-    const [firstResult] = leagueResults;
+    const [firstResult] = asCompletedLeagueGameResults(leagueResults);
     const { ratingTimeline } = buildEloRatings([firstResult]);
 
     expect(ratingTimeline[0]?.homeTeamPreRating).toBe(ELO_INITIAL_RATING);
@@ -13,7 +20,7 @@ describe('elo helpers', () => {
   });
 
   it('gives the winner rating gain and the loser rating loss', () => {
-    const [firstResult] = leagueResults;
+    const [firstResult] = asCompletedLeagueGameResults(leagueResults);
     const { currentRatingsByTeam } = buildEloRatings([firstResult]);
 
     expect(currentRatingsByTeam[firstResult.awayTeam]?.rating).toBeGreaterThan(ELO_INITIAL_RATING);
@@ -21,12 +28,13 @@ describe('elo helpers', () => {
   });
 
   it('is deterministic for identical sorted results', () => {
+    const completedResults = asCompletedLeagueGameResults(leagueResults);
     const shuffledResults: LeagueGameResult[] = [
-      leagueResults[4],
-      leagueResults[0],
-      leagueResults[3],
-      leagueResults[1],
-      leagueResults[2],
+      completedResults[4],
+      completedResults[0],
+      completedResults[3],
+      completedResults[1],
+      completedResults[2],
     ];
 
     const firstRun = buildEloRatings(shuffledResults);
@@ -41,7 +49,7 @@ describe('elo helpers', () => {
   });
 
   it('falls back to 1200 for an unmatched future opponent', () => {
-    const { currentRatingsByTeam } = buildEloRatings(leagueResults);
+    const { currentRatingsByTeam } = buildEloRatings(asCompletedLeagueGameResults(leagueResults));
     const projections = buildFutureGameProjections(
       [
         {
@@ -61,7 +69,7 @@ describe('elo helpers', () => {
   });
 
   it('projects only future non-completed games for Ballers United', () => {
-    const { currentRatingsByTeam } = buildEloRatings(leagueResults);
+    const { currentRatingsByTeam } = buildEloRatings(asCompletedLeagueGameResults(leagueResults));
     const projections = buildFutureGameProjections(sampleData.games, currentRatingsByTeam, {
       asOfDate: '2026-06-25',
     });
@@ -76,7 +84,7 @@ describe('elo helpers', () => {
   });
 
   it('creates win probability and spread for each projected game', () => {
-    const { currentRatingsByTeam } = buildEloRatings(leagueResults);
+    const { currentRatingsByTeam } = buildEloRatings(asCompletedLeagueGameResults(leagueResults));
     const projections = buildFutureGameProjections(sampleData.games, currentRatingsByTeam, {
       asOfDate: '2026-06-25',
     });
@@ -86,10 +94,22 @@ describe('elo helpers', () => {
   });
 
   it('changes projected ratings when new league results are added', () => {
-    const baseRatings = buildEloRatings(leagueResults.slice(0, -1)).currentRatingsByTeam;
-    const updatedRatings = buildEloRatings(leagueResults).currentRatingsByTeam;
+    const completedResults = asCompletedLeagueGameResults(leagueResults);
+    const baseRatings = buildEloRatings(completedResults.slice(0, -1)).currentRatingsByTeam;
+    const updatedRatings = buildEloRatings(completedResults).currentRatingsByTeam;
 
-    expect(updatedRatings['United Splash Bros']?.rating).not.toBe(baseRatings['United Splash Bros']?.rating);
-    expect(updatedRatings['Amish Ballers']?.rating).not.toBe(baseRatings['Amish Ballers']?.rating);
+    expect(updatedRatings['Ballers United']?.rating).not.toBe(baseRatings['Ballers United']?.rating);
+    expect(updatedRatings['Make a Swish Foundation']?.rating).not.toBe(baseRatings['Make a Swish Foundation']?.rating);
+  });
+
+  it('creates win probabilities for future league games', () => {
+    const { currentRatingsByTeam } = buildEloRatings(asCompletedLeagueGameResults(leagueResults));
+    const projections = buildFutureLeagueGameProjections(leagueResults, currentRatingsByTeam, {
+      asOfDate: '2026-07-01',
+    });
+
+    expect(projections.length).toBeGreaterThan(0);
+    expect(projections.every((projection) => projection.homeWinProbability > 0 && projection.homeWinProbability < 1)).toBe(true);
+    expect(projections.every((projection) => projection.awayWinProbability > 0 && projection.awayWinProbability < 1)).toBe(true);
   });
 });
