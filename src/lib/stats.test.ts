@@ -63,6 +63,28 @@ describe('stats helpers', () => {
     });
   });
 
+  it('excludes partial completed games from season stat coverage and aggregates', () => {
+    const players: Player[] = [
+      { id: 'p1', name: 'Alex' },
+    ];
+    const games: Game[] = [
+      { id: 'g1', seasonId: '2026-summer', date: '2026-01-01', opponent: 'One', status: 'completed', teamScore: 80, oppScore: 70 },
+      { id: 'g2', seasonId: '2026-summer', date: '2026-01-08', opponent: 'Two', status: 'completed', teamScore: 68, oppScore: 61, excludeFromSeasonStats: true },
+    ];
+    const stats: PlayerGameStat[] = [
+      { id: 's1', seasonId: '2026-summer', playerId: 'p1', gameId: 'g1', pts: 20, reb: 8, ast: 5, fgm: 7, fga: 14, tpm: 2, tpa: 5, stl: 1, blk: 0 },
+      { id: 's2', seasonId: '2026-summer', playerId: 'p1', gameId: 'g2', pts: 7, reb: 11, ast: 2, fgm: 3, fga: 9, tpm: 1, tpa: 5, stl: 1, blk: 0 },
+    ];
+
+    expect(getStatCoverage(games, stats)).toEqual({
+      completedGames: 1,
+      statBackedGames: 1,
+      missingStatGames: 0,
+    });
+    expect(getStatsForMode(games, players, stats, 'real')).toHaveLength(1);
+    expect(getStatsForMode(games, players, stats, 'real')[0]?.gameId).toBe('g1');
+  });
+
   it('estimates missing game stats by player share and preserves team totals', () => {
     const players: Player[] = [
       { id: 'p1', name: 'Alex' },

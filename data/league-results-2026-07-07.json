@@ -5,28 +5,36 @@
       "date": "2026-07-07",
       "homeTeam": "Grape Soda",
       "awayTeam": "Ballers United",
-      "status": "scheduled"
+      "status": "completed",
+      "homeScore": 61,
+      "awayScore": 76
     },
     {
       "id": "2026-07-07-united-splash-bros-mount-sumit",
       "date": "2026-07-07",
       "homeTeam": "United Splash Bros",
       "awayTeam": "Mount Sumit",
-      "status": "scheduled"
+      "status": "completed",
+      "homeScore": 73,
+      "awayScore": 64
     },
     {
       "id": "2026-07-07-amish-ballers-pick-pizza-roll",
       "date": "2026-07-07",
       "homeTeam": "Amish Ballers",
       "awayTeam": "Pick & Pizza Roll",
-      "status": "scheduled"
+      "status": "completed",
+      "homeScore": 60,
+      "awayScore": 87
     },
     {
       "id": "2026-07-07-make-a-swish-foundation-lamelos-balls",
       "date": "2026-07-07",
       "homeTeam": "Make a Swish Foundation",
       "awayTeam": "LaMelo's Balls",
-      "status": "scheduled"
+      "status": "completed",
+      "homeScore": 74,
+      "awayScore": 54
     }
   ]
 }

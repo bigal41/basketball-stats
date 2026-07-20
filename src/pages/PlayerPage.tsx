@@ -50,6 +50,7 @@ export const PlayerPage = () => {
   const realStatsCount = getPlayerStatsForPlayer(realSeasonStats, player.id).length;
   const estimatedStatsCount = stats.filter((stat) => stat.isEstimated).length;
   const hasEstimatedStats = estimatedStatsCount > 0;
+  const excludedGamesCount = data.games.filter((game) => game.excludeFromSeasonStats).length;
   const statsModeSummary =
     statsMode === 'estimated'
       ? `Estimated mode adds ${estimatedStatsCount} generated game log row${
@@ -87,6 +88,11 @@ export const PlayerPage = () => {
           </div>
         ) : null}
         <p className="mb-4 text-sm text-[var(--text-secondary)]">{statsModeSummary}</p>
+        {excludedGamesCount > 0 ? (
+          <p className="mb-4 text-sm font-semibold text-[var(--accent)]">
+            Partial box scores are excluded from season averages and totals.
+          </p>
+        ) : null}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard label="Total Points" value={`${totals.pts}`} />
           <StatCard label="PPG" value={formatAverage(averages.pts)} accent="from-sky-300/30 to-blue-300/10" />

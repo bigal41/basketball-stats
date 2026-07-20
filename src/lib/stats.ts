@@ -69,6 +69,9 @@ export const formatAverage = (value: number): string => value.toFixed(1);
 export const getCompletedGames = (games: Game[]): Game[] =>
   games.filter((game) => game.status === 'completed');
 
+export const isIncludedInSeasonStats = (game: Game): boolean =>
+  game.status === 'completed' && game.excludeFromSeasonStats !== true;
+
 export const getRegularSeasonGames = (games: Game[]): Game[] =>
   games.filter((game) => (game.gameType ?? 'regular') === 'regular');
 
@@ -101,16 +104,16 @@ export const getPlayerStatsForPlayer = <T extends PlayerGameStat>(
 ): T[] => stats.filter((stat) => stat.playerId === playerId);
 
 export const getStatCoverage = (games: Game[], stats: PlayerGameStat[]): StatCoverage => {
-  const completedGames = getCompletedGames(games);
-  const completedGameIds = new Set(completedGames.map((game) => game.id));
+  const includedGames = games.filter(isIncludedInSeasonStats);
+  const completedGameIds = new Set(includedGames.map((game) => game.id));
   const statBackedGameIds = new Set(
     stats.filter((stat) => completedGameIds.has(stat.gameId)).map((stat) => stat.gameId),
   );
 
   return {
-    completedGames: completedGames.length,
+    completedGames: includedGames.length,
     statBackedGames: statBackedGameIds.size,
-    missingStatGames: completedGames.length - statBackedGameIds.size,
+    missingStatGames: includedGames.length - statBackedGameIds.size,
   };
 };
 
@@ -120,7 +123,7 @@ export const getStatsForMode = (
   stats: PlayerGameStat[],
   mode: StatsMode,
 ): DisplayPlayerGameStat[] => {
-  const completedGames = getCompletedGames(games);
+  const completedGames = games.filter(isIncludedInSeasonStats);
   const completedGameIds = new Set(completedGames.map((game) => game.id));
   const completedStats = stats
     .filter((stat) => completedGameIds.has(stat.gameId))

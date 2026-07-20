@@ -41,6 +41,7 @@ export const DashboardPage = () => {
   const activeGameCount = new Set(activeStats.map((stat) => stat.gameId)).size;
   const totalGames = activeGameCount || 1;
   const seasonTotals = sumStatLines(activeStats);
+  const excludedStatGames = data.games.filter((game) => game.excludeFromSeasonStats);
   const teamTrendData = completedGames.map((game) => ({
     game: game.opponent,
     points: game.teamScore ?? 0,
@@ -63,6 +64,12 @@ export const DashboardPage = () => {
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--text-muted)]">Stats Mode</p>
           <p className="mt-1 text-sm text-[var(--text-secondary)]">{statsModeSummary}</p>
+          {excludedStatGames.length > 0 ? (
+            <p className="mt-2 text-sm font-semibold text-[var(--accent)]">
+              {excludedStatGames.length} completed game{excludedStatGames.length === 1 ? '' : 's'} with partial box scores
+              {excludedStatGames.length === 1 ? ' is' : ' are'} excluded from season averages and totals.
+            </p>
+          ) : null}
         </div>
         <StatsModeToggle mode={statsMode} onChange={setStatsMode} />
       </section>
@@ -113,6 +120,7 @@ export const DashboardPage = () => {
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="text-sm uppercase tracking-[0.3em] text-[var(--text-muted)]">{game.date}</p>
                     <GameTypeBadge gameType={game.gameType} />
+                    {game.excludeFromSeasonStats ? <PlayerBadge label="Partial Stats" tone="muted" /> : null}
                   </div>
                   <p className="mt-1 text-base font-bold text-[var(--text-primary)] sm:text-lg">vs {game.opponent}</p>
                 </div>

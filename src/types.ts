@@ -44,6 +44,8 @@ export interface Game {
   youtubeUrl?: string;
   youtubeUrls?: GameVideoLink[];
   absentPlayerNames?: string[];
+  excludeFromSeasonStats?: boolean;
+  statsNote?: string;
 }
 
 export interface Player {

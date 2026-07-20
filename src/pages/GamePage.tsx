@@ -81,6 +81,11 @@ export const GamePage = () => {
           </div>
         }
       >
+        {game.excludeFromSeasonStats || game.statsNote ? (
+          <div className="mb-4 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-4 py-3 text-sm font-semibold text-[var(--accent)]">
+            {game.statsNote ?? 'This box score is excluded from season averages and totals.'}
+          </div>
+        ) : null}
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--panel-soft)] p-4">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--text-muted)]">Date</p>

@@ -1,0 +1,105 @@
+{
+  "game": {
+    "id": "c73e6289-a8e7-48f9-b1d4-ae6a45464e6e",
+    "date": "2026-07-14",
+    "opponent": "#8-Pick & Pizza Roll",
+    "teamScore": 68,
+    "oppScore": 61,
+    "status": "completed",
+    "gameType": "regular",
+    "excludeFromSeasonStats": true,
+    "statsNote": "Only the first 20 minutes were recorded. This box score is excluded from season averages and totals.",
+    "youtubeUrls": [
+      {
+        "label": "First half",
+        "url": "https://youtu.be/bm3cJP9Bnuc?si=ZrBBC4VyRS-gbkvj"
+      }
+    ]
+  },
+  "playerStats": [
+    {
+      "playerName": "Cameron",
+      "pts": 7,
+      "reb": 11,
+      "ast": 2,
+      "fgm": 3,
+      "fga": 9,
+      "tpm": 1,
+      "tpa": 5,
+      "stl": 1,
+      "blk": 0
+    },
+    {
+      "playerName": "Kyle",
+      "pts": 17,
+      "reb": 11,
+      "ast": 1,
+      "fgm": 7,
+      "fga": 15,
+      "tpm": 3,
+      "tpa": 9,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Justin",
+      "pts": 0,
+      "reb": 5,
+      "ast": 0,
+      "fgm": 0,
+      "fga": 5,
+      "tpm": 0,
+      "tpa": 3,
+      "stl": 1,
+      "blk": 0
+    },
+    {
+      "playerName": "Josh",
+      "pts": 6,
+      "reb": 4,
+      "ast": 0,
+      "fgm": 2,
+      "fga": 7,
+      "tpm": 2,
+      "tpa": 6,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Alex C",
+      "pts": 0,
+      "reb": 2,
+      "ast": 0,
+      "fgm": 0,
+      "fga": 3,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Mitch",
+      "pts": 0,
+      "reb": 3,
+      "ast": 0,
+      "fgm": 0,
+      "fga": 1,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    },
+    {
+      "playerName": "Vern",
+      "pts": 0,
+      "reb": 1,
+      "ast": 1,
+      "fgm": 0,
+      "fga": 1,
+      "tpm": 0,
+      "tpa": 0,
+      "stl": 0,
+      "blk": 0
+    }
+  ]
+}
