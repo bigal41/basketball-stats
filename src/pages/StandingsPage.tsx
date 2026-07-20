@@ -4,6 +4,7 @@ import {
   buildLeagueStandings,
   formatPointDifferential,
   formatWinPct,
+  slugifyTeamName,
 } from '../lib/league';
 import { SectionCard } from '../ui/SectionCard';
 import { StatePanel } from '../ui/StatePanel';
@@ -75,7 +76,14 @@ export const StandingsPage = () => {
                     }`}
                   >
                     <td className="rounded-l-2xl px-3 py-3">{index + 1}</td>
-                    <td className="px-3 py-3">{standing.team}</td>
+                    <td className="px-3 py-3">
+                      <Link
+                        to={`/teams/${slugifyTeamName(standing.team)}`}
+                        className="font-semibold transition hover:text-[var(--accent)]"
+                      >
+                        {standing.team}
+                      </Link>
+                    </td>
                     <td className="px-3 py-3">{standing.wins}</td>
                     <td className="px-3 py-3">{standing.losses}</td>
                     <td className="px-3 py-3">{formatWinPct(standing.winPct)}</td>

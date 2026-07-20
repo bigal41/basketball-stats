@@ -24,6 +24,11 @@ const StandingsPage = lazy(async () => {
   return { default: module.StandingsPage };
 });
 
+const TeamPage = lazy(async () => {
+  const module = await import('./pages/TeamPage');
+  return { default: module.TeamPage };
+});
+
 const NotFoundPage = lazy(async () => {
   const module = await import('./pages/NotFoundPage');
   return { default: module.NotFoundPage };
@@ -44,6 +49,7 @@ export const router = createBrowserRouter([
       { path: 'games/:gameId', element: withSuspense(<GamePage />) },
       { path: 'players/:playerId', element: withSuspense(<PlayerPage />) },
       { path: 'standings', element: withSuspense(<StandingsPage />) },
+      { path: 'teams/:teamSlug', element: withSuspense(<TeamPage />) },
       { path: '*', element: withSuspense(<NotFoundPage />) },
     ],
   },

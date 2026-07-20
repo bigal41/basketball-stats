@@ -12,6 +12,24 @@ export interface LeagueStanding {
   winPct: number;
 }
 
+export const slugifyTeamName = (teamName: string): string =>
+  teamName
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+export const getLeagueTeams = (games: LeagueGame[]): string[] =>
+  [...new Set(games.flatMap((game) => [game.homeTeam, game.awayTeam]))].sort((left, right) =>
+    left.localeCompare(right),
+  );
+
+export const findLeagueTeamBySlug = (games: LeagueGame[], teamSlug: string): string | null =>
+  getLeagueTeams(games).find((team) => slugifyTeamName(team) === teamSlug) ?? null;
+
+export const getTeamLeagueGames = (games: LeagueGame[], teamName: string): LeagueGame[] =>
+  games.filter((game) => game.homeTeam === teamName || game.awayTeam === teamName);
+
 export const leagueResults: LeagueGame[] = [
   {
     id: '2026-05-26-grape-soda-lamelos-balls',
